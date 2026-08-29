@@ -15,7 +15,7 @@
 <div id="verifyMessage" class="verify-message"></div>
 <p><button id="resendBtn" class="verify-btn" type="button" style="margin-top:8px;background:transparent;color:var(--sky);border:1px solid var(--line)">Resend code</button></p>
 </section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js?v=20260829-v15"></script><script src="api-client.js?v=20260829-v15"></script><script src="auth.js?v=20260829-v15"></script><script src="Sky.js?v=20260829-v15"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js?v=20260829-v18"></script><script src="api-client.js?v=20260829-v18"></script><script src="auth.js?v=20260829-v18"></script><script src="Sky.js?v=20260829-v18"></script><script>
 (()=>{const pending=JSON.parse(sessionStorage.getItem('skylinePendingVerification')||'null');const emailEl=document.getElementById('verifyEmail'),codeEl=document.getElementById('verifyCode'),msg=document.getElementById('verifyMessage');if(!pending){location.replace('signup.html');return;}emailEl.textContent=pending.email;
 function setMsg(t){msg.textContent=t;}
 async function deliver(code){const endpoint=window.SKYLINE_CLOUD?.verificationEndpoint;if(window.SKYLINE_CLOUD?.enabled&&endpoint){const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:pending.email,code})});if(!r.ok)throw new Error('Unable to send the verification code right now.');return true;}return false;}
@@ -24,5 +24,5 @@ document.getElementById('verifyForm').addEventListener('submit',e=>{e.preventDef
 document.getElementById('resendBtn').addEventListener('click',async()=>{try{await makeCode();}catch(e){setMsg(e.message);}});
 setMsg(window.SKYLINE_CLOUD?.enabled?'Check your email for the verification code.':'Local test mode: your verification code is '+pending.code+'.');
 })();
-</script><script src="ui.js?v=20260829-v15"></script>
+</script><script src="ui.js?v=20260829-v18"></script>
 </body></html>

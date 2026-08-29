@@ -10,3 +10,6 @@ Timeline refinement update:
 - Service worker cache is bumped to v16.
 
 This remains a front-end prototype; secure uploads, GIF search and location storage should be connected to the production backend later.
+
+
+This package has been superseded by SkyLine v18, with the deployed HTTPS API URL configured in cloud-config.js.

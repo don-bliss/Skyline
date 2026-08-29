@@ -1,23 +1,46 @@
-/* SkyLine API client scaffold
-   No private keys belong in this browser file. Set SKYLINE_API.baseUrl to your
-   HTTPS backend when it is deployed. The methods below define the frontend/backend contract.
+/* SkyLine API client v18
+   Cross-device authentication uses a deployed HTTPS SkyLine API.
+   The access/refresh tokens are stored only on the current device.
 */
 (() => {
   'use strict';
   const cfg = window.SKYLINE_API || { baseUrl: '' };
-  const request = async (path, options = {}) => {
+  const TOKEN_KEY = 'skylineAccessToken';
+  const REFRESH_KEY = 'skylineRefreshToken';
+  const getToken = () => localStorage.getItem(TOKEN_KEY) || '';
+  const request = async (path, options = {}, retry = true) => {
     if (!cfg.baseUrl) throw new Error('SkyLine backend is not connected yet.');
-    const res = await fetch(`${cfg.baseUrl.replace(/\/$/,'')}${path}`, {
-      ...options,
-      headers: { 'Content-Type':'application/json', ...(options.headers || {}) },
-      credentials: 'include'
-    });
+    const headers = { 'Content-Type':'application/json', ...(options.headers || {}) };
+    const token = getToken();
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const res = await fetch(`${cfg.baseUrl.replace(/\/$/,'')}${path}`, { ...options, headers, credentials:'include' });
+    if (res.status === 401 && retry && path !== '/api/v1/auth/login' && path !== '/api/v1/auth/refresh') {
+      const refreshToken = localStorage.getItem(REFRESH_KEY);
+      if (refreshToken) {
+        try {
+          const refreshed = await request('/api/v1/auth/refresh', { method:'POST', body:JSON.stringify({refreshToken}) }, false);
+          setTokens(refreshed.accessToken, refreshed.refreshToken);
+          return request(path, options, false);
+        } catch (_) { clearTokens(); }
+      }
+    }
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || `SkyLine API error (${res.status})`);
     return data;
   };
+  const setTokens = (accessToken, refreshToken) => {
+    if (accessToken) localStorage.setItem(TOKEN_KEY, accessToken);
+    if (refreshToken) localStorage.setItem(REFRESH_KEY, refreshToken);
+  };
+  const clearTokens = () => { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(REFRESH_KEY); };
   window.SkyLineAPI = {
+    isConfigured: () => Boolean(cfg.baseUrl),
+    setTokens, clearTokens,
     health: () => request('/api/v1/health'),
+    authSignup: body => request('/api/v1/auth/signup', {method:'POST', body:JSON.stringify(body)}),
+    authLogin: body => request('/api/v1/auth/login', {method:'POST', body:JSON.stringify(body)}),
+    authRefresh: refreshToken => request('/api/v1/auth/refresh', {method:'POST', body:JSON.stringify({refreshToken})}),
+    authLogout: () => request('/api/v1/auth/logout', {method:'POST'}),
     me: () => request('/api/v1/me'),
     profile: () => request('/api/v1/profile'),
     updateProfile: body => request('/api/v1/profile', {method:'PATCH', body:JSON.stringify(body)}),

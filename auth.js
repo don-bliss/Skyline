@@ -59,6 +59,16 @@
   }
 
   async function getSession() {
+    if (window.SkyLineAPI?.isConfigured?.()) {
+      try {
+        const data = await window.SkyLineAPI.me();
+        const user = normalizeUser(data.user);
+        localStorage.setItem("skylineUser", JSON.stringify(user));
+        return user;
+      } catch (_) {
+        window.SkyLineAPI.clearTokens?.();
+      }
+    }
     if (sb) {
       const { data } = await sb.auth.getSession();
       return data?.session ? normalizeUser(data.session.user) : null;
@@ -69,6 +79,14 @@
   async function signUp({ name, email, phone, password, avatar }) {
     email = email.trim().toLowerCase();
     const acc = accountNumber();
+    if (window.SkyLineAPI?.isConfigured?.()) {
+      const result = await window.SkyLineAPI.authSignup({ name, email, phone, password, avatar: avatar || "" });
+      window.SkyLineAPI.setTokens(result.accessToken, result.refreshToken);
+      const user = normalizeUser(result.user);
+      setLocalSession(user);
+      localStorage.setItem("skylineUser", JSON.stringify(user));
+      return { user, needsEmailConfirmation: false };
+    }
     if (sb) {
       const { data, error } = await sb.auth.signUp({
         email, password,
@@ -87,6 +105,14 @@
 
   async function signIn(email, password) {
     email = email.trim().toLowerCase();
+    if (window.SkyLineAPI?.isConfigured?.()) {
+      const result = await window.SkyLineAPI.authLogin({ email, password });
+      window.SkyLineAPI.setTokens(result.accessToken, result.refreshToken);
+      const user = normalizeUser(result.user);
+      setLocalSession(user);
+      localStorage.setItem("skylineUser", JSON.stringify(user));
+      return user;
+    }
     if (sb) {
       const { data, error } = await sb.auth.signInWithPassword({ email, password });
       if (error) throw error;
@@ -117,6 +143,10 @@
   }
 
   async function signOut() {
+    if (window.SkyLineAPI?.isConfigured?.()) {
+      try { await window.SkyLineAPI.authLogout(); } catch (_) {}
+      window.SkyLineAPI.clearTokens?.();
+    }
     if (sb) await sb.auth.signOut();
     clearLocalSession();
     localStorage.removeItem("skylineUser");

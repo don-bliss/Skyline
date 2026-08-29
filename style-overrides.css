@@ -251,3 +251,56 @@ body,header,.skyline-drawer,.timeline-composer,.timeline-post,.timeline-empty,.i
   .composer-tools{gap:5px}
   .composer-tool{height:28px!important;padding:0 8px!important;font-size:10px!important}
 }
+
+/* =========================================================
+   SKYLINE v17 — timeline polish + interaction affordances
+   ========================================================= */
+@media(min-width:701px){
+  header .skyline-search-trigger{margin-left:70px!important;margin-right:auto!important}
+}
+@media(max-width:700px){
+  header .skyline-search-trigger{margin-left:54px!important;margin-right:auto!important}
+}
+.community-link{min-height:38px!important;padding:0 13px!important;margin:0 0 8px!important;border-radius:12px!important;font-size:11px!important;gap:8px!important}
+.community-link-arrow{font-size:23px!important}
+.compact-create-post{padding:8px 10px!important;margin-bottom:10px!important;border-radius:17px!important;gap:9px!important}
+.compact-create-avatar{width:38px!important;height:38px!important;flex-basis:38px!important}
+.compact-create-form textarea{height:38px!important;min-height:38px!important;max-height:150px!important;padding:7px 12px!important;font-size:13px!important}
+.compact-create-form button[type=submit]{height:38px!important;padding:0 13px!important;font-size:12px!important;border-radius:11px!important}
+.composer-tools{gap:4px!important}
+.composer-tool{height:27px!important;padding:0 8px!important;font-size:10px!important}
+.section-tabs{gap:7px!important;margin:12px 0 8px!important}
+.section-tab{padding:10px 6px!important;min-height:48px!important;border-radius:12px!important;font-size:13px!important}
+.section-tools-clean{margin:0 0 8px!important}
+.section-tools-clean span{font-size:12px!important}
+.sky-post{padding:13px 14px!important;border-radius:18px!important;margin-bottom:10px!important}
+.sky-post-head{gap:9px!important}
+.sky-post-head img{width:38px!important;height:38px!important}
+.sky-post>p{font-size:14px!important;line-height:1.45!important;margin:10px 0!important}
+.sky-post-actions{gap:4px!important;padding-top:8px!important}
+.sky-post-actions button{padding:6px 8px!important;font-size:11px!important}
+.sky-post-media{max-height:300px!important;border-radius:13px!important}
+.post-avatar-link,.post-author-link{color:inherit;text-decoration:none}
+.post-avatar-link{display:block;flex:0 0 auto;border-radius:50%}
+.post-avatar-link:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
+.post-author-link:hover strong{text-decoration:underline;text-underline-offset:3px}
+.sky-post-actions button.is-liked{color:var(--sky)!important;font-weight:700}
+.post-comment-panel{margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+.post-comments{display:grid;gap:5px;margin-bottom:7px}
+.post-comment{display:flex;gap:6px;align-items:baseline;font-size:11px;color:var(--muted)}
+.post-comment strong{color:var(--text)}
+.inline-comment-form{display:flex;gap:6px}
+.inline-comment-form input{min-width:0;flex:1;background:#101c31;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:7px 9px;font:400 11px Poppins}
+.inline-comment-form button{border:1px solid var(--sky);background:var(--sky);color:#071426;border-radius:10px;padding:0 10px;font:700 11px Poppins;cursor:pointer}
+.wallet-link{border:1px solid rgba(99,167,255,.28)!important;background:rgba(99,167,255,.08)!important;font-weight:700!important}
+.wallet-link:hover,.wallet-link.active{border-color:var(--sky)!important}
+@media(max-width:700px){
+  .sections-page{padding:18px 14px 92px!important}
+  .community-link{min-height:38px!important}
+  .compact-create-post{padding:7px 8px!important}
+  .compact-create-avatar{width:36px!important;height:36px!important;flex-basis:36px!important}
+  .compact-create-form textarea{height:37px!important;min-height:37px!important}
+  .compact-create-form button[type=submit]{height:37px!important;padding:0 11px!important}
+  .section-tab{min-height:46px!important;padding:9px 5px!important}
+  .sky-post{padding:12px 13px!important}
+}

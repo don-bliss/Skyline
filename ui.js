@@ -53,6 +53,8 @@
     if (!header || document.querySelector(".skyline-menu-trigger")) return;
     const nav = header.querySelector("nav");
     if (nav) nav.classList.add("skyline-legacy-nav");
+    // On every authenticated page, the SkyLine brand/Home route returns to the Timeline.
+    if (protectedPages.includes(page)) header.querySelectorAll('.logo a').forEach(a => { a.href = 'timeline.html'; });
     if (page === "timeline.html") {
       const searchTrigger = document.createElement("button");
       searchTrigger.className = "skyline-search-trigger";

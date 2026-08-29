@@ -1,10 +1,8 @@
-/* SkyLine Cloud Authentication / Email Verification
-   Add Supabase values for cross-device accounts.
-   verificationEndpoint is the future secure server endpoint that sends the
-   one-time email code. Never put private service-role keys in this file.
+/* SkyLine v18 connection settings.
+   Cross-device authentication is connected to the deployed HTTPS API.
+   Do not put database passwords, JWT secrets, or service-role keys here.
 */
-window.SKYLINE_API = { baseUrl: "" };
-
+window.SKYLINE_API = { baseUrl: "https://skyline-gmut.onrender.com" };
 window.SKYLINE_CLOUD = {
   enabled: false,
   supabaseUrl: "",
