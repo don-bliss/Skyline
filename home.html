@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkyLine | Home</title>
+
+    <link rel="stylesheet" href="base.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style-overrides.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand-stack">
+       <div class="logo"><a href="index.html">Sky<span>Line</span></a></div>
+       <span class="header-username" data-user-username>@SkyLineUser</span>
+    </div>
+
+    <nav>
+        <a href="#">🔔</a>
+
+        <a href="inbox.html">Messages</a>
+
+        <a href="profile.html">Profile</a>
+
+    </nav>
+
+</header>
+
+
+<main class="home-page">
+
+    <!-- LEFT COLUMN -->
+
+    <aside class="left-sidebar">
+
+        <div class="profile-card">
+          <img src="assets/default-avatar.svg" alt="Profile" data-profile-icon>
+            <h3 data-user-name>SkyLine User</h3>
+
+            <p>@<span data-user-account>0000000000</span></p>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="timeline.html">Timeline</a>
+
+            <a href="profile.html">Profile</a>
+
+            <a href="features.html">Features</a>
+
+            <a href="skyinfo.html">About</a>
+
+            <a href="support.html">Support</a>
+
+            <a href="settings.html">Settings</a>
+
+        </div>
+
+    </aside>
+
+    <!-- CENTER -->
+
+    <section class="feed">
+
+        <div class="wallet-card">
+
+            <div>
+
+                <small>Wallet Balance</small>
+
+                <h2 data-user-balance>₦0.00</h2>
+                <strong class="wallet-user-name" data-user-name>SkyLine User</strong>
+
+            </div>
+
+            <div>
+
+                <small>Account Number</small>
+
+                <h3 data-user-account>0000000000</h3>
+
+            </div>
+
+            <div class="wallet-buttons wallet-home-actions">
+                <button class="wallet-open-dashboard" onclick="location.href='wallet.html'">Open Wallet Dashboard</button>
+                <button onclick="location.href='wallet.html'">Send</button>
+                <button onclick="location.href='wallet.html'">Receive</button>
+                <button onclick="location.href='wallet.html'">Withdraw</button>
+            </div>
+
+        </div>
+
+
+
+        <div class="create-post">
+
+            <img src="assets/default-avatar.svg" alt="Profile" data-profile-icon>
+
+            <input
+
+            type="text"
+
+            placeholder="What's on your mind?">
+
+        </div>
+
+
+
+        <div class="stories">
+
+            <div class="story">+</div>
+
+            <div class="story"></div>
+
+            <div class="story"></div>
+
+            <div class="story"></div>
+
+            <div class="story"></div>
+
+        </div>
+
+
+
+        <div class="post">
+
+            <div class="post-header">
+
+                <img src="assets/default-avatar.svg" alt="Profile" data-profile-icon>
+
+                <div>
+
+                    <h4>Don Bliss</h4>
+
+                    <small>5 mins ago</small>
+
+                </div>
+
+            </div>
+            <p>
+                Excited to finally join SkyLin e 🚀
+            </p>
+
+            <img
+
+            src="assets/default-avatar.svg"
+
+            class="post-image">
+
+            <div class="post-actions">
+
+                <button>Like</button>
+
+                <button>Comment</button>
+
+                <button>Share</button>
+
+                <button>Pay</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+<!-- =========================================
+     LIVE CRYPTO MARKET
+========================================== -->
+
+<div class="crypto-market-card">
+
+    <div class="crypto-market-header">
+
+        <div>
+            <h3>Markets</h3>
+
+            <span
+                class="crypto-live-status"
+                id="cryptoLiveStatus">
+
+                ● Live
+
+            </span>
+        </div>
+
+        <button
+            type="button"
+            class="crypto-refresh"
+            id="cryptoRefresh"
+            title="Refresh market data">
+
+            ↻
+
+        </button>
+
+    </div>
+
+
+    <!-- MAIN MARKET TABS -->
+
+    <div class="crypto-tabs">
+
+        <button
+            type="button"
+            class="crypto-tab active"
+            data-market-tab="hot">
+
+            Hot
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-tab"
+            data-market-tab="favorites">
+
+            Favorites
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-tab"
+            data-market-tab="new">
+
+            New
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-tab"
+            data-market-tab="gainers">
+
+            Gainers
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-tab"
+            data-market-tab="losers">
+
+            Losers
+
+        </button>
+
+    </div>
+
+
+    <!-- MARKET TYPE -->
+
+    <div class="crypto-type-tabs">
+
+        <button
+            type="button"
+            class="crypto-type-tab active"
+            data-type="spot">
+
+            Spot
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-type-tab"
+            data-type="futures">
+
+            Futures
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-type-tab"
+            data-type="cfd">
+
+            CFD
+
+        </button>
+
+        <button
+            type="button"
+            class="crypto-type-tab"
+            data-type="alpha">
+
+            Alpha
+
+        </button>
+
+    </div>
+
+
+    <!-- COIN LIST -->
+    <div class="crypto-column-labels">
+
+    <span>Asset</span>  
+
+    <span>Price / 24h</span>
+
+</div> 
+    <div
+        class="crypto-list"
+        id="cryptoList">
+
+        <div class="crypto-loading">
+
+            <div class="crypto-loader"></div>
+
+            <span>
+                Loading market data...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="crypto-footer">
+
+        <span id="cryptoUpdated">
+            Updating...
+        </span>
+
+        <span>
+            Market data
+        </span>
+
+    </div>
+
+</div>
+
+        <div class="trending">
+
+            <h3>Trending</h3>
+
+            <p>#SkyLine</p>
+
+            <p>#Business</p>
+
+            <p>#Travel</p>
+
+            <p>#Technology</p>
+
+        </div>
+
+    </aside>
+
+</main>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="cloud-config.js?v=20260829-v13"></script><script src="api-client.js?v=20260829-v13"></script><script src="auth.js?v=20260829-v13"></script>
+<script src="Sky.js?v=20260829-v13"></script>
+<script src="crypto.js"></script>
+
+<script src="ui.js?v=20260829-v13"></script>
+</body>
+
+</html>

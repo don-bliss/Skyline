@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkyLine | Login</title>
+
+    <link rel="stylesheet" href="base.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style-overrides.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Sky<span>Line</span>
+    </div>
+
+    <nav>
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="signup.html">
+            Create Account
+        </a>
+
+    </nav>
+
+</header>
+
+
+<section class="signup-container">
+
+    <div class="signup-card login-card">
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p>
+            Login to your SkyLine account
+        </p>
+
+
+        <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label for="loginEmail">
+                    Email Address
+                </label>
+
+                <div class="validation-input">
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required>
+
+                    <span
+                        id="loginEmailStatus">
+                    </span>
+
+                </div>
+
+                <small
+                    id="loginEmailMessage">
+                </small>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <div class="login-password-label">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <a href="#"
+                       id="forgotPassword">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <span
+                        class="toggle-password"
+                        data-target="loginPassword">
+
+                        Show
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- REMEMBER ME -->
+
+            <label class="checkbox-label login-remember">
+
+                <input
+                    type="checkbox"
+                    id="rememberLogin">
+
+                <span>
+                    Remember me
+                </span>
+
+            </label>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="signup-btn"
+                id="loginBtn">
+
+                <span id="loginBtnText">
+                    Login
+                </span>
+
+            </button>
+
+
+        </form>
+
+
+        <div class="bottom-link">
+
+            Don't have a SkyLine account?
+
+            <a href="signup.html">
+                Create One
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LOGIN SUCCESS -->
+
+<div
+    class="success-overlay"
+    id="loginSuccess">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h2>
+            Login Successful
+        </h2>
+
+        <p>
+            Welcome back to SkyLine.
+        </p>
+
+        <small>
+            Opening your dashboard...
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- FORGOT PASSWORD -->
+
+<div
+    class="success-overlay"
+    id="forgotModal">
+
+    <div class="success-card">
+
+        <h2>
+            Reset Password
+        </h2>
+
+        <p>
+            Enter your email address and
+            we'll help you reset your password.
+        </p>
+
+        <input
+            type="email"
+            id="resetEmail"
+            placeholder="Your email address">
+
+        <button
+            class="signup-btn"
+            id="resetBtn">
+
+            Send Reset Link
+
+        </button>
+
+        <button
+            class="modal-close"
+            id="closeForgot">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="cloud-config.js?v=20260829-v13"></script><script src="api-client.js?v=20260829-v13"></script><script src="auth.js?v=20260829-v13"></script>
+<script src="Sky.js?v=20260829-v13"></script>
+
+<script src="ui.js?v=20260829-v13"></script>
+</body>
+
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkyLine | Create Account</title>
+
+    <link rel="stylesheet" href="base.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style-overrides.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Sky<span>Line</span>
+    </div>
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="login.html">Login</a>
+
+    </nav>
+
+</header>
+
+
+<section class="signup-container">
+
+    <div class="signup-card">
+
+        <h1>Create Your Account</h1>
+
+        <p>
+            Join SkyLine and connect, chat and pay
+            from one platform.
+        </p>
+
+
+        <!-- PROFILE PHOTO -->
+
+        <div class="profile-upload">
+
+            <div class="profile-preview">
+
+                <span id="profileIcon">👤</span>
+
+                <img
+                    id="profilePreview"
+                    alt="Profile preview">
+
+            </div>
+
+            <label
+                for="profilePhoto"
+                class="upload-btn">
+
+                Upload Photo
+
+            </label>
+
+            <input
+                type="file"
+                id="profilePhoto"
+                accept="image/*"
+                hidden>
+
+            <small>
+                Optional
+            </small>
+
+        </div>
+
+
+        <form id="signupForm">
+
+
+            <!-- FULL NAME -->
+
+            <div class="input-group">
+
+                <label for="fullName">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="validation-input">
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="example@email.com"
+                        autocomplete="email"
+                        required>
+
+                    <span id="emailStatus"></span>
+
+                </div>
+
+                <small id="emailMessage"></small>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="input-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="+234 801 234 5678"
+                    autocomplete="tel"
+                    required>
+
+                <small id="phoneMessage"></small>
+
+            </div>
+            <!-- USERNAME / ACCOUNT NUMBER -->
+
+            <div class="input-group">
+
+                <label>
+                    SkyLine Account Number
+                </label>
+
+                <div class="account-preview">
+
+                    <strong id="accountNumber">
+                        Generating...
+                    </strong>
+
+                    <span>
+                        Your account number will be used
+                        as your default username.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label for="signupPassword">
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password"
+                        required>
+
+                    <span
+                        class="toggle-password"
+                        data-target="signupPassword">
+
+                        Show
+
+                    </span>
+
+                </div>
+
+
+                <!-- PASSWORD STRENGTH -->
+
+                <div class="password-strength">
+
+                    <div
+                        class="strength-bar"
+                        id="strengthBar">
+                    </div>
+
+                </div>
+
+                <small id="passwordStrength">
+                    Password strength: —
+                </small>
+
+                <ul class="password-rules">
+
+                    <li id="lengthRule">
+                        At least 8 characters
+                    </li>
+
+                    <li id="uppercaseRule">
+                        One uppercase letter
+                    </li>
+
+                    <li id="lowercaseRule">
+                        One lowercase letter
+                    </li>
+
+                    <li id="numberRule">
+                        One number
+                    </li>
+
+                    <li id="specialRule">
+                        One special character
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="input-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required>
+
+                    <span
+                        class="toggle-password"
+                        data-target="confirmPassword">
+
+                        Show
+
+                    </span>
+
+                </div>
+
+                <small id="passwordMatch"></small>
+
+            </div>
+
+
+            <!-- REMEMBER ME -->
+
+            <div class="form-options">
+
+                <label class="checkbox-label">
+
+                    <input
+                        type="checkbox"
+                        id="rememberMe">
+
+                    <span>
+                        Remember me
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- TERMS -->
+
+            <label class="checkbox-label terms">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    required>
+
+                <span>
+
+                    I agree to the
+                    <a href="#">
+                        Terms & Conditions
+                    </a>
+                    and
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+                </span>
+
+            </label>
+
+
+            <!-- CREATE ACCOUNT -->
+
+            <button
+                type="submit"
+                class="signup-btn"
+                id="createAccountBtn">
+
+                Create Account
+
+            </button>
+
+
+        </form>
+
+
+        <div class="bottom-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUCCESS MODAL -->
+
+<div
+    class="success-overlay"
+    id="successOverlay">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h2>
+            Account Created!
+        </h2>
+
+        <p>Welcome to SkyLine. Please verify your email with the one-time code before signing in.</p>
+
+        <div class="account-created">
+
+            <span>
+                Your Account Number
+            </span>
+
+            <strong id="createdAccountNumber">
+                0000000000
+            </strong>
+
+        </div>
+
+        <small id="verificationEmail">A one-time verification code is required.</small><div id="demoVerificationCode" class="verification-demo-code" hidden></div><small>Opening email verification...</small>
+
+    </div>
+
+</div>
+
+
+
+<script>
+/* SkyLine signup bootstrap: guarantees the auth API exists even if a cached/slow script prevented it from loading. */
+window.skylineAuthReady = (async function () {
+  if (typeof window.skylineSignUp === "function") return true;
+  await new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-skyline-auth-loader]');
+    if (existing) {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = 'auth.js?v=20260829-v13';
+    s.dataset.skylineAuthLoader = 'true';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('SkyLine authentication could not be loaded. Please refresh the page.'));
+    document.head.appendChild(s);
+  });
+  if (typeof window.skylineSignUp !== "function") {
+    throw new Error('SkyLine authentication is unavailable. Please refresh the page and try again.');
+  }
+  return true;
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="cloud-config.js?v=20260829-v13"></script><script src="api-client.js?v=20260829-v13"></script><script src="auth.js?v=20260829-v13"></script>
+<script src="Sky.js?v=20260829-v13"></script>
+
+<script src="ui.js?v=20260829-v13"></script>
+</body>
+
+</html>

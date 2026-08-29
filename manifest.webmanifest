@@ -1,0 +1,10 @@
+{
+  "name": "SkyLine",
+  "short_name": "SkyLine",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b1428",
+  "theme_color": "#0b1428",
+  "description": "SkyLine social and financial platform",
+  "icons": [{"src":"assets/default-avatar.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

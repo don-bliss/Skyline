@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkyLine | Timeline</title>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="style-overrides.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+  <div class="brand-stack">
+    <div class="logo"><a href="index.html">Sky<span>Line</span></a></div>
+    <span class="header-username" data-user-username></span>
+  </div>
+  <nav></nav>
+</header>
+
+<main class="sections-page timeline-sections-page">
+  <button type="button" class="community-link" id="communityTrigger">
+    <span class="community-link-label">SKYLINE COMMUNITY</span>
+  </button>
+
+  <section class="compact-create-post" aria-label="Create a post">
+    <div class="compact-create-avatar"><img src="assets/default-avatar.svg" alt="Your profile" data-profile-icon></div>
+    <form id="sectionPostForm" class="compact-create-form">
+      <textarea id="sectionPostText" rows="1" maxlength="500" autocomplete="off" placeholder="What's on your mind?"></textarea>
+      <button type="button" class="composer-expand" id="expandPostComposer" aria-label="Expand create post" aria-expanded="false">↗</button>
+      <button type="submit">Publish</button>
+    </form>
+  </section>
+
+  <div class="section-tabs" role="tablist" aria-label="SkyLine timeline sections">
+    <button class="section-tab active" data-section="trends" role="tab" aria-selected="true">Trends</button>
+    <button class="section-tab" data-section="mutuals" role="tab" aria-selected="false">Mutuals</button>
+    <button class="section-tab" data-section="explore" role="tab" aria-selected="false">Explore</button>
+    <button class="section-tab" data-section="marketplace" role="tab" aria-selected="false">Marketplace</button>
+  </div>
+
+  <div class="section-tools section-tools-clean"><span id="sectionFeedLabel">Trending posts</span></div>
+  <section id="sectionFeed" aria-live="polite"></section>
+</main>
+
+<div class="community-modal" id="communityModal" aria-hidden="true">
+  <div class="community-card" role="dialog" aria-modal="true" aria-labelledby="communityTitle">
+    <button type="button" class="community-close" id="closeCommunity" aria-label="Close">×</button>
+    <span class="eyebrow">SkyLine Community</span>
+    <h2 id="communityTitle">Join a room</h2>
+    <p>Choose an interest and meet people from around the world.</p>
+    <div class="community-room-grid">
+      <a href="community.html?room=football">Football</a>
+      <a href="community.html?room=music">Music</a>
+      <a href="community.html?room=entertainment">Entertainment</a>
+      <a href="community.html?room=politics">Politics</a>
+    </div>
+  </div>
+</div>
+
+<div class="market-pay-modal" id="marketPayModal">
+  <div class="market-pay-card">
+    <button id="closeMarketPay" class="wallet-modal-close">×</button>
+    <span class="eyebrow">SkyLine Marketplace</span>
+    <h2>Pay seller</h2>
+    <p>Seller: <strong id="marketPayName">—</strong></p>
+    <label>Amount<input id="marketPayAmount" type="number" min="1" step="0.01"></label>
+    <form id="marketPayForm"><button class="composer-submit" type="submit">Continue to secure payment</button></form>
+    <small>No money moves in this front-end prototype.</small>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="cloud-config.js?v=20260829-v13"></script>
+<script src="api-client.js?v=20260829-v13"></script>
+<script src="auth.js?v=20260829-v13"></script>
+<script src="Sky.js?v=20260829-v13"></script>
+<script src="sections.js?v=20260829-v13"></script>
+<script>
+(() => {
+  const modal=document.getElementById('communityModal');
+  const open=document.getElementById('communityTrigger');
+  const close=document.getElementById('closeCommunity');
+  const hide=()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');};
+  open?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');});
+  close?.addEventListener('click',hide);
+  modal?.addEventListener('click',e=>{if(e.target===modal)hide();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+})();
+</script>
+<script src="ui.js?v=20260829-v13"></script>
+</body>
+</html>

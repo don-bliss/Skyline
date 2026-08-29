@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>SkyLine | Inbox</title>
+
+    <link
+        rel="stylesheet"
+        href="base.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style-overrides.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        <a href="index.html">
+            Sky<span>Line</span>
+        </a>
+    </div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="#" id="logoutLink">Logout</a>
+
+    </nav>
+
+</header>
+
+
+<main class="inbox-page">
+
+    <!-- =========================================
+         CONVERSATION PANEL
+    ========================================== -->
+
+    <aside
+        class="conversation-panel"
+        id="conversationPanel">
+
+        <div class="inbox-heading">
+
+            <div>
+
+                <h1>Inbox</h1>
+
+                <span
+                    class="inbox-count"
+                    id="inboxCount">
+                    0 conversations
+                </span>
+
+            </div>
+
+            <button
+                type="button"
+                class="new-message-btn"
+                id="newMessageBtn"
+                aria-label="New message">
+
+                ＋
+
+            </button>
+
+        </div>
+
+
+        <div class="inbox-search">
+
+            <input
+                type="search"
+                id="conversationSearch"
+                placeholder="Search conversations..."
+                autocomplete="off">
+
+        </div>
+
+
+        <div
+            class="conversation-list"
+            id="conversationList">
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         CHAT PANEL
+    ========================================== -->
+
+    <section class="chat-panel" id="chatPanel">
+
+        <div class="chat-header">
+
+            <button
+                type="button"
+                class="back-to-inbox"
+                id="backToInbox"
+                aria-label="Back to conversations">
+
+                ←
+
+            </button>
+
+
+            <div class="chat-user">
+
+                <div class="conversation-avatar">
+
+                    <img
+                        id="chatAvatar"
+                        src=""
+                        alt="">
+
+                    <span
+                        class="chat-online-dot"
+                        id="chatOnlineDot">
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong id="chatUserName">
+                        Select a conversation
+                    </strong>
+
+                    <small id="chatStatus">
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="chat-actions">
+                <button
+    type="button"
+    id="payChatBtn"
+    title="Pay or request money">
+    Pay
+</button> 
+
+                <button
+                    type="button"
+                    id="audioCallBtn"
+                    title="Voice call">
+
+                    Call
+
+                </button>
+
+                <button
+                    type="button"
+                    id="videoCallBtn"
+                    title="Video call">
+
+                    Video
+
+                </button>
+
+                <button
+                    type="button"
+                    id="chatMenuBtn"
+                    title="More options">
+
+                    ⋮
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             MESSAGES
+        ====================================== -->
+
+        <div
+            class="messages"
+            id="messages">
+
+            <div class="empty-chat">
+
+                <div class="empty-chat-icon">
+                    Messages
+                </div>
+
+                <h2>
+                    Your messages
+                </h2>
+
+                <p>
+                    Select a conversation to start chatting.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             ATTACHMENT PREVIEW
+        ====================================== -->
+
+        <div
+            class="attachment-preview"
+            id="attachmentPreview">
+
+            <div
+                class="attachment-preview-content"
+                id="attachmentPreviewContent">
+            </div>
+
+            <button
+                type="button"
+                id="removeAttachment"
+                aria-label="Remove attachment">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- =====================================
+             EMOJI PANEL
+        ====================================== -->
+
+        <div
+            class="emoji-panel"
+            id="emojiPanel">
+
+            <button type="button">😀</button>
+            <button type="button">😂</button>
+            <button type="button">😍</button>
+            <button type="button">❤️</button>
+            <button type="button">🔥</button>
+            <button type="button">👍</button>
+            <button type="button">👏</button>
+            <button type="button">🎉</button>
+            <button type="button">🙏</button>
+            <button type="button">😎</button>
+            <button type="button">💙</button>
+            <button type="button">🚀</button>
+
+        </div>
+
+
+        <!-- =====================================
+             MESSAGE COMPOSER
+        ====================================== -->
+
+        <form
+            class="message-composer"
+            id="messageForm">
+
+            <button
+                type="button"
+                id="emojiBtn"
+                title="Emoji">
+
+                😊
+
+            </button>
+
+
+            <label
+                class="attachment-btn"
+                for="attachmentInput"
+                title="Attach file">
+
+                Attach
+
+            </label>
+
+            <input
+                type="file"
+                id="attachmentInput"
+                hidden
+                accept="image/*,.pdf,.doc,.docx,.txt">
+
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Write a message..."
+                autocomplete="off">
+
+
+            <button
+                type="submit"
+                class="send-message"
+                id="sendMessageBtn"
+                aria-label="Send message">
+
+                Send
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================
+     NEW CONVERSATION MODAL
+========================================== -->
+
+<div
+    class="success-overlay"
+    id="newMessageModal">
+
+    <div class="success-card inbox-modal">
+
+        <button
+            type="button"
+            class="modal-x"
+            id="closeNewMessage">
+
+            ×
+
+        </button>
+
+        <h2>
+            New Conversation
+        </h2>
+
+        <p>
+            Enter a SkyLine account number or username.
+        </p>
+
+
+        <div class="modal-input-group">
+
+            <label for="recipientAccount">
+                Account number / username
+            </label>
+
+            <input
+                type="text"
+                id="recipientAccount"
+                placeholder="@username or account number"
+                autocomplete="off">
+
+        </div>
+
+
+        <button
+            type="button"
+            class="signup-btn"
+            id="startConversation">
+
+            Continue
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     CHAT MENU
+========================================== -->
+
+<div
+    class="chat-dropdown"
+    id="chatDropdown">
+
+    <button
+        type="button"
+        id="clearChatBtn">
+
+        🗑 Clear conversation
+
+    </button>
+
+    <button
+        type="button"
+        id="closeChatMenu">
+
+        Close
+
+    </button>
+
+</div>
+<!-- =========================================
+     PAY / REQUEST MONEY MODAL
+========================================== -->
+
+<div
+    class="success-overlay"
+    id="moneyModal">
+
+    <div class="success-card money-modal">
+
+        <button
+            type="button"
+            class="modal-x"
+            id="closeMoneyModal">
+
+            ×
+
+        </button>
+
+
+        <div class="money-header">
+
+            <div class="money-icon">
+                Pay
+            </div>
+
+            <div>
+
+                <h2>
+                    Money
+                </h2>
+
+                <p>
+                    Send or request money
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECIPIENT -->
+
+        <div class="money-recipient">
+
+            <div class="money-recipient-avatar">
+
+                <img
+                    id="moneyRecipientAvatar"
+                    src=""
+                    alt="">
+
+            </div>
+
+            <div>
+
+                <strong
+                    id="moneyRecipientName">
+                    Recipient
+                </strong>
+
+                <small
+                    id="moneyRecipientUsername">
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTION SWITCH -->
+
+        <div class="money-tabs">
+
+            <button
+                type="button"
+                class="money-tab active"
+                data-mode="send">
+
+                Send Money
+
+            </button>
+
+            <button
+                type="button"
+                class="money-tab"
+                data-mode="request">
+
+                Request Money
+
+            </button>
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <div class="money-amount">
+
+            <span>₦</span>
+
+            <input
+                type="number"
+                id="moneyAmount"
+                min="1"
+                step="0.01"
+                placeholder="0.00"
+                inputmode="decimal">
+
+        </div>
+
+
+        <!-- QUICK AMOUNTS -->
+
+        <div class="quick-amounts">
+
+            <button type="button" data-amount="1000">
+                ₦1,000
+            </button>
+
+            <button type="button" data-amount="5000">
+                ₦5,000
+            </button>
+
+            <button type="button" data-amount="10000">
+                ₦10,000
+            </button>
+
+            <button type="button" data-amount="50000">
+                ₦50,000
+            </button>
+
+        </div>
+
+
+        <!-- NOTE -->
+
+        <textarea
+            id="moneyNote"
+            rows="3"
+            maxlength="120"
+            placeholder="Add a note (optional)">
+        </textarea>
+
+
+        <small
+            class="money-disclaimer">
+            Demo only — no real money will be moved.
+        </small>
+
+
+        <button
+            type="button"
+            class="signup-btn"
+            id="moneySubmitBtn">
+
+            Send ₦0.00
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="cloud-config.js?v=20260829-v13"></script><script src="api-client.js?v=20260829-v13"></script><script src="auth.js?v=20260829-v13"></script>
+<script src="Sky.js?v=20260829-v13"></script>
+<script src="inbox.js"></script>
+
+<script src="ui.js?v=20260829-v13"></script>
+</body>
+
+</html>
