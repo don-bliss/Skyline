@@ -152,3 +152,42 @@ body,header,.skyline-drawer,.timeline-composer,.timeline-post,.timeline-empty,.i
 
 /* v11 Community rooms */
 .community-page{max-width:760px;margin:0 auto;padding:34px 18px 100px}.community-back{display:inline-block;color:var(--muted);text-decoration:none;margin-bottom:18px}.community-back:hover{color:var(--sky)}.community-room-card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}.community-room-card h1{font-size:clamp(30px,6vw,46px);margin:7px 0}.community-room-card>p{color:var(--muted);line-height:1.7}.room-status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin:18px 0 12px}.room-live-dot{width:9px;height:9px;border-radius:50%;background:#4fd18b;box-shadow:0 0 0 4px rgba(79,209,139,.12)}.room-messages{height:420px;overflow:auto;border:1px solid var(--line);border-radius:18px;background:#0d182b;padding:14px}.room-message{display:flex;flex-direction:column;gap:3px;padding:11px 4px;border-bottom:1px solid rgba(145,180,225,.12)}.room-message:last-child{border-bottom:0}.room-message strong{font-size:13px;color:var(--sky)}.room-message span{color:var(--text);line-height:1.5}.room-form{display:flex;gap:9px;margin-top:12px}.room-form input{min-width:0;flex:1;background:#101c31;border:1px solid var(--line);border-radius:13px;color:#fff;padding:13px 15px;font:400 14px Poppins;outline:none}.room-form input:focus{border-color:var(--sky)}.room-form button{border:0;border-radius:13px;background:var(--sky);color:#071426;padding:0 18px;font-weight:700;cursor:pointer}@media(max-width:700px){.community-page{padding-top:24px}.room-messages{height:360px}}
+
+
+/* =========================================================
+   v14 FINAL TIMELINE / WALLET NAV REFINEMENTS
+   ========================================================= */
+/* The wallet is a dedicated dashboard: it must not be duplicated on Home/Timeline. */
+.wallet-link{
+  min-width:82px!important;
+  height:60px!important;
+  padding:0 10px!important;
+  border:1px solid rgba(99,167,255,.48)!important;
+  background:linear-gradient(145deg,rgba(99,167,255,.22),rgba(47,128,237,.10))!important;
+  box-shadow:0 6px 20px rgba(47,128,237,.18);
+  color:var(--sky)!important;
+  transform:translateY(-4px);
+}
+.wallet-link svg{width:27px!important;height:27px!important;stroke-width:2.15!important}
+.wallet-link span{font-weight:700!important;font-size:10px!important}
+.wallet-link.active{background:var(--sky)!important;color:#071426!important;border-color:var(--sky)!important;box-shadow:0 8px 24px rgba(47,128,237,.28)}
+.wallet-link.active svg{color:#071426!important}
+
+/* Auto-growing Timeline composer: no expand arrows/buttons. */
+.compact-create-form{align-items:flex-start!important}
+.compact-create-form textarea{height:42px;min-height:42px;max-height:170px;overflow-y:hidden;resize:none;transition:height .08s ease,border-color .18s ease,background-color .28s ease,color .28s ease}
+.compact-create-form textarea:focus{border-color:var(--sky)}
+.compact-create-form button{align-self:flex-start}
+.compact-create-form .composer-expand{display:none!important}
+
+/* Auto-growing global search: no arrow/expand control. */
+.skyline-search-card{align-items:flex-start!important}
+.skyline-search-card textarea{height:46px;min-height:46px;max-height:180px;overflow-y:hidden;resize:none}
+.skyline-search-card .search-expand{display:none!important}
+
+@media(max-width:700px){
+  .wallet-link{min-width:76px!important;height:58px!important;transform:translateY(-3px);padding:0 8px!important}
+  .wallet-link svg{width:26px!important;height:26px!important}
+  .compact-create-form textarea{height:40px;min-height:40px;max-height:150px;font-size:13px}
+  .skyline-search-card{align-items:stretch!important}
+}

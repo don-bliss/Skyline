@@ -1,4 +1,4 @@
-# SkyLine v13
+# SkyLine v14
 
 This update preserves the working SkyLine v10 theme/navigation base and focuses only on the requested Timeline improvements.
 
@@ -18,3 +18,11 @@ The community chat, posts, search and marketplace payment are still front-end/de
 
 ## Publishing
 Use this package as the clean replacement for the current GitHub Pages repository, as with the previous SkyLine packages.
+
+
+## v14 final timeline cleanup
+- Removed the wallet card/dashboard preview from Home; users access the wallet through the dedicated bottom Wallet button.
+- Made the bottom Wallet button visually prominent for easier access.
+- Removed the create-post expand arrow and implemented automatic textarea growth while typing.
+- Removed the search expand arrow and implemented automatic search textarea growth.
+- Updated the service-worker cache name to v14 to reduce stale-cache issues.

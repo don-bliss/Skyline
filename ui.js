@@ -48,24 +48,22 @@
 
       const searchModal = document.createElement("div");
       searchModal.className = "skyline-search-modal";
-      searchModal.innerHTML = '<div class="skyline-search-card" role="dialog" aria-modal="true" aria-label="Search SkyLine"><textarea id="skylineGlobalSearch" rows="1" maxlength="300" placeholder="Search SkyLine" autocomplete="off"></textarea><button type="button" class="search-expand" id="expandSkylineSearch" aria-label="Expand search" aria-expanded="false">↗</button><button type="button" id="closeSkylineSearch">Close</button></div>';
+      searchModal.innerHTML = '<div class="skyline-search-card" role="dialog" aria-modal="true" aria-label="Search SkyLine"><textarea id="skylineGlobalSearch" rows="1" maxlength="300" placeholder="Search SkyLine" autocomplete="off"></textarea><button type="button" id="closeSkylineSearch">Close</button></div>';
       document.body.appendChild(searchModal);
       const searchInput = searchModal.querySelector("#skylineGlobalSearch");
       const closeSearch = searchModal.querySelector("#closeSkylineSearch");
-      const expandSearch = searchModal.querySelector("#expandSkylineSearch");
-      const openSearch = () => { searchModal.classList.add("show"); setTimeout(() => searchInput?.focus(), 30); };
-      expandSearch?.addEventListener("click", () => {
-        const expanded = searchModal.classList.toggle("expanded");
-        searchInput?.classList.toggle("expanded", expanded);
-        if (searchInput) searchInput.rows = expanded ? 5 : 1;
-        expandSearch.setAttribute("aria-expanded", String(expanded));
-        expandSearch.textContent = expanded ? "↙" : "↗";
-      });
+      const autoGrow = (el, maxHeight=180) => {
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, maxHeight) + 'px';
+        el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
+      };
+      const openSearch = () => { searchModal.classList.add("show"); setTimeout(() => { autoGrow(searchInput); searchInput?.focus(); }, 30); };
       const hideSearch = () => { searchModal.classList.remove("show"); };
+      searchInput?.addEventListener("input", () => { autoGrow(searchInput); document.dispatchEvent(new CustomEvent("skyline-search", { detail: { query: searchInput.value } })); });
       searchTrigger.addEventListener("click", openSearch);
       closeSearch?.addEventListener("click", hideSearch);
       searchModal.addEventListener("click", e => { if (e.target === searchModal) hideSearch(); });
-      searchInput?.addEventListener("input", () => document.dispatchEvent(new CustomEvent("skyline-search", { detail: { query: searchInput.value } })));
       document.addEventListener("keydown", e => { if (e.key === "Escape") hideSearch(); });
     }
 
@@ -117,7 +115,7 @@
       <a href="${isTimeline ? '#' : 'timeline.html'}" class="quick-home ${isTimeline ? 'active' : ''}" aria-label="Home">${icon('home')}<span>Home</span></a>
       <a href="inbox.html" class="${page==='inbox.html'?'active':''}" aria-label="Inbox">${icon('inbox')}<span>Inbox</span></a>
       <a href="notifications.html" class="${page==='notifications.html'?'active':''}" aria-label="Notifications">${icon('notifications')}<span>Notifications</span><i class="nav-dot" hidden></i></a>
-      <a href="wallet.html" class="${page==='wallet.html'?'active':''}" aria-label="Wallet">${icon('wallet')}<span>Wallet</span></a>`;
+      <a href="wallet.html" class="wallet-link ${page==='wallet.html'?'active':''}" aria-label="Wallet">${icon('wallet')}<span>Wallet</span></a>`;
     document.body.appendChild(nav);
     const home = nav.querySelector('.quick-home');
     home.addEventListener('click', (e) => {

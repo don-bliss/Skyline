@@ -82,14 +82,15 @@
     render();
   }));
 
-  const expandPost = document.getElementById('expandPostComposer');
-  expandPost?.addEventListener('click', () => {
-    const expanded = postForm?.classList.toggle('expanded');
-    if (postText) postText.rows = expanded ? 5 : 1;
-    expandPost.setAttribute('aria-expanded', String(!!expanded));
-    expandPost.textContent = expanded ? '↙' : '↗';
-    if (expanded) postText?.focus();
-  });
+  const autoGrowPost = () => {
+    if (!postText) return;
+    postText.style.height = 'auto';
+    const maxHeight = window.matchMedia('(max-width: 700px)').matches ? 150 : 170;
+    postText.style.height = Math.min(postText.scrollHeight, maxHeight) + 'px';
+    postText.style.overflowY = postText.scrollHeight > maxHeight ? 'auto' : 'hidden';
+  };
+  postText?.addEventListener('input', autoGrowPost);
+  autoGrowPost();
 
   postForm?.addEventListener('submit', async e => {
     e.preventDefault();
@@ -104,9 +105,8 @@
     data.trends.unshift(post);
     try { localStorage.setItem(DATA_KEY, JSON.stringify({trends:data.trends.filter(p=>p.mine).slice(0,20)})); } catch (_) {}
     postText.value = '';
-    postText.rows = 1;
-    postForm?.classList.remove('expanded');
-    if (expandPost) { expandPost.setAttribute('aria-expanded', 'false'); expandPost.textContent = '↗'; }
+    postText.style.height = '42px';
+    postText.style.overflowY = 'hidden';
     active = 'trends';
     tabs.forEach(x => { x.classList.toggle('active', x.dataset.section==='trends'); x.setAttribute('aria-selected', String(x.dataset.section==='trends')); });
     render();
