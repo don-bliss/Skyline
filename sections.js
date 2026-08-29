@@ -13,11 +13,16 @@
   const postForm = document.getElementById('sectionPostForm');
   const postText = document.getElementById('sectionPostText');
   const feedLabel = document.getElementById('sectionFeedLabel');
+  const mediaInput = document.getElementById('composerMediaInput');
+  const mediaButton = document.getElementById('composerMedia');
+  const gifButton = document.getElementById('composerGif');
+  const locationButton = document.getElementById('composerLocation');
+  let composerMedia = null;
 
   const DATA_KEY = 'skylineSectionPosts';
   const data = {
     trends: [
-      {name:'Olusina Stephen', username:'@olusina', text:'Omo you not fit chop this life at once ooo', time:'5m', likes:'47K', comments:'1.2K', image:'assets/default-avatar.svg'},
+      {name:'Olusina Stephen', username:'@olusina', text:'Omo you not fit chop this life at once ooo', time:'5m', likes:'47K', comments:'1.2K', image:''},
       {name:'SkyLine Community', username:'@skyline', text:'What is trending in your city today? Share the moment with the community.', time:'18m', likes:'22K', comments:'806'},
       {name:'Amina Bello', username:'@aminabello', text:'Small wins still count. Keep moving.', time:'31m', likes:'12K', comments:'402'}
     ],
@@ -52,20 +57,27 @@
       return u?.avatar || 'assets/default-avatar.svg';
     } catch (_) { return 'assets/default-avatar.svg'; }
   };
+  const userAvatarFor = (p, u) => {
+    const uname = String(p.username || '').replace(/^@/, '').toLowerCase();
+    const current = String(u?.username || u?.accountNumber || '').replace(/^@/, '').toLowerCase();
+    const same = p.mine || (current && uname === current) || (u?.name && p.name === u.name);
+    return same && u?.avatar ? u.avatar : (p.avatar || 'assets/default-avatar.svg');
+  };
   const currentUser = async () => window.skylineGetSession?.() || (() => { try { return JSON.parse(localStorage.getItem('skylineUser') || 'null'); } catch (_) { return null; } })() || {name:'SkyLine User', username:'SkyLineUser'};
 
-  function render() {
+  async function render() {
+    const u = await currentUser();
     const items = data[active].filter(p => !query || `${p.name} ${p.username} ${p.text}`.toLowerCase().includes(query));
     const labels = {trends:'Trending posts', mutuals:'Posts from your mutuals', explore:'World news and updates', marketplace:'Items available to trade'};
     if (feedLabel) feedLabel.textContent = labels[active];
     root.innerHTML = items.map(p => `
       <article class="sky-post ${active==='marketplace'?'market-post':''}">
         <div class="sky-post-head">
-          <img src="${esc(p.avatar || 'assets/default-avatar.svg')}" alt="">
+          <img src="${esc(userAvatarFor(p,u))}" alt="Profile photo" onerror="this.onerror=null;this.src='assets/default-avatar.svg'">
           <div><strong>${esc(p.name)}</strong><small>${esc(p.username)} · ${esc(p.time)}</small></div>
         </div>
         <p>${esc(p.text)}</p>
-        ${p.image ? `<img class="sky-post-media" src="${esc(p.image)}" alt="Post media">` : ''}
+        ${p.mediaUrl ? (p.mediaType === 'video' ? `<video class="sky-post-media" src="${esc(p.mediaUrl)}" controls playsinline></video>` : `<img class="sky-post-media" src="${esc(p.mediaUrl)}" alt="Post media" onerror="this.style.display='none'">`) : ''}
         ${p.price ? `<div class="market-price">${esc(p.price)}</div>` : ''}
         <div class="sky-post-actions">
           <button type="button">♡ ${esc(p.likes)}</button>
@@ -90,23 +102,50 @@
     postText.style.overflowY = postText.scrollHeight > maxHeight ? 'auto' : 'hidden';
   };
   postText?.addEventListener('input', autoGrowPost);
+  postText?.addEventListener('focus', () => postForm?.classList.add('composer-focused'));
   autoGrowPost();
+
+  mediaButton?.addEventListener('click', () => mediaInput?.click());
+  mediaInput?.addEventListener('change', () => {
+    const f = mediaInput.files?.[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = e => { composerMedia = { url: e.target.result, type: f.type.startsWith('video/') ? 'video' : 'image' }; };
+    r.readAsDataURL(f);
+  });
+  gifButton?.addEventListener('click', () => {
+    const url = prompt('Paste a GIF URL');
+    if (url?.trim()) composerMedia = { url: url.trim(), type: 'gif' };
+  });
+  locationButton?.addEventListener('click', () => {
+    if (!navigator.geolocation) { alert('Location is not available on this device.'); return; }
+    locationButton.disabled = true;
+    navigator.geolocation.getCurrentPosition(pos => {
+      const label = `📍 ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+      postText.value = `${postText.value}${postText.value ? '\n' : ''}${label}`;
+      autoGrowPost(); locationButton.disabled = false; postText.focus();
+    }, () => { alert('Unable to access your location.'); locationButton.disabled = false; }, {enableHighAccuracy:false,timeout:8000});
+  });
 
   postForm?.addEventListener('submit', async e => {
     e.preventDefault();
     const text = postText?.value.trim();
-    if (!text) { postText?.focus(); return; }
+    if (!text && !composerMedia) { postText?.focus(); return; }
     const u = await currentUser();
     const post = {
       name: u?.name || 'SkyLine User',
       username: '@' + String(u?.username || u?.accountNumber || 'SkyLineUser').replace(/^@/, ''),
-      text, time:'Just now', likes:'0', comments:'0', avatar: u?.avatar || avatar(), mine:true
+      text: text || '', time:'Just now', likes:'0', comments:'0', avatar: u?.avatar || avatar(), mine:true,
+      mediaUrl: composerMedia?.url || '', mediaType: composerMedia?.type || ''
     };
     data.trends.unshift(post);
     try { localStorage.setItem(DATA_KEY, JSON.stringify({trends:data.trends.filter(p=>p.mine).slice(0,20)})); } catch (_) {}
     postText.value = '';
+    if (mediaInput) mediaInput.value = '';
+    composerMedia = null;
     postText.style.height = '42px';
     postText.style.overflowY = 'hidden';
+    postForm.classList.remove('composer-focused');
     active = 'trends';
     tabs.forEach(x => { x.classList.toggle('active', x.dataset.section==='trends'); x.setAttribute('aria-selected', String(x.dataset.section==='trends')); });
     render();

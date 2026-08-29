@@ -34,6 +34,20 @@
     return [["index.html","Home","home"],["features.html","Features","timeline"],["skyinfo.html","About","about"],["support.html","Support","support"],["login.html","Login","login"],["signup.html","Create Account","signup"]];
   }
 
+  async function syncRegisteredAvatar() {
+    try {
+      const u = await window.skylineGetSession?.() || JSON.parse(localStorage.getItem('skylineUser') || 'null');
+      if (!u) return;
+      const src = u.avatar || 'assets/default-avatar.svg';
+      document.querySelectorAll('[data-profile-icon], [data-user-avatar]').forEach(img => {
+        img.src = src;
+        img.onerror = () => { img.onerror = null; img.src = 'assets/default-avatar.svg'; };
+      });
+      document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = u.name || 'SkyLine User');
+      document.querySelectorAll('[data-user-username]').forEach(el => el.textContent = '@' + String(u.username || u.accountNumber || 'SkyLineUser').replace(/^@/, ''));
+    } catch (_) {}
+  }
+
   function injectDrawer() {
     const header = document.querySelector("header");
     if (!header || document.querySelector(".skyline-menu-trigger")) return;
@@ -92,6 +106,7 @@
       } catch (_) {}
     };
     renderDrawerUser();
+    syncRegisteredAvatar();
     const open=()=>{drawer.classList.add('open');overlay.classList.add('show');document.body.classList.add('drawer-open');renderDrawerUser();syncThemeSwitch();};
     const close=()=>{drawer.classList.remove('open');overlay.classList.remove('show');document.body.classList.remove('drawer-open');};
     trigger.addEventListener('click',open); overlay.addEventListener('click',close); drawer.querySelector('.drawer-close').addEventListener('click',close);
@@ -104,6 +119,9 @@
     syncThemeSwitch();
     document.addEventListener('click',e=>{const target=e.target.closest('[data-profile-link], .profile-card, [data-profile-icon]');if(!target || drawer.contains(target)) return;if(target.tagName==='A' && target.getAttribute('href')==='profile.html') return;e.preventDefault();location.href='profile.html';});
   }
+
+  document.addEventListener('DOMContentLoaded', syncRegisteredAvatar);
+  window.addEventListener('pageshow', syncRegisteredAvatar);
 
   function injectBottomNav() {
     if (!protectedPages.includes(page) || document.querySelector('.skyline-bottom-nav')) return;

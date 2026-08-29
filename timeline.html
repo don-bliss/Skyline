@@ -18,14 +18,23 @@
 </header>
 
 <main class="sections-page timeline-sections-page">
-  <button type="button" class="community-link" id="communityTrigger">
+  <button type="button" class="community-link" id="communityTrigger" aria-haspopup="dialog" aria-controls="communityModal">
     <span class="community-link-label">SKYLINE COMMUNITY</span>
+    <span class="community-link-arrow" aria-hidden="true">›</span>
   </button>
 
   <section class="compact-create-post" aria-label="Create a post">
     <div class="compact-create-avatar"><img src="assets/default-avatar.svg" alt="Your profile" data-profile-icon></div>
     <form id="sectionPostForm" class="compact-create-form">
-      <textarea id="sectionPostText" rows="1" maxlength="500" autocomplete="off" placeholder="What's on your mind?"></textarea>
+      <div class="compact-create-main">
+        <textarea id="sectionPostText" rows="1" maxlength="500" autocomplete="off" placeholder="What's on your mind?"></textarea>
+        <div class="composer-tools" id="composerTools" aria-label="Post options">
+          <button type="button" class="composer-tool" id="composerMedia" title="Add photo or video"><span>▧</span> Media</button>
+          <button type="button" class="composer-tool" id="composerGif" title="Add a GIF"><span>GIF</span> GIF</button>
+          <button type="button" class="composer-tool" id="composerLocation" title="Add your location"><span>⌖</span> Location</button>
+        </div>
+      </div>
+      <input type="file" id="composerMediaInput" accept="image/*,video/*" hidden>
       <button type="submit">Publish</button>
     </form>
   </section>
@@ -52,6 +61,8 @@
       <a href="community.html?room=music">Music</a>
       <a href="community.html?room=entertainment">Entertainment</a>
       <a href="community.html?room=politics">Politics</a>
+      <a href="community.html?room=food">Food</a>
+      <a href="community.html?room=fashion">Fashion</a>
     </div>
   </div>
 </div>
@@ -69,11 +80,11 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="cloud-config.js?v=20260829-v15"></script>
-<script src="api-client.js?v=20260829-v15"></script>
-<script src="auth.js?v=20260829-v15"></script>
-<script src="Sky.js?v=20260829-v15"></script>
-<script src="sections.js?v=20260829-v15"></script>
+<script src="cloud-config.js?v=20260829-v16"></script>
+<script src="api-client.js?v=20260829-v16"></script>
+<script src="auth.js?v=20260829-v16"></script>
+<script src="Sky.js?v=20260829-v16"></script>
+<script src="sections.js?v=20260829-v16"></script>
 <script>
 (() => {
   const modal=document.getElementById('communityModal');
@@ -86,6 +97,6 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
 })();
 </script>
-<script src="ui.js?v=20260829-v15"></script>
+<script src="ui.js?v=20260829-v16"></script>
 </body>
 </html>

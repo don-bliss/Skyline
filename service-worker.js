@@ -1,14 +1,14 @@
-const CACHE = 'skyline-shell-v15';
+const CACHE = 'skyline-shell-v16';
 const SHELL = [
   './',
   'index.html',
   'base.css',
   'style-overrides.css',
-  'Sky.js?v=20260829-v15',
-  'ui.js?v=20260829-v15',
-  'auth.js?v=20260829-v15',
-  'api-client.js?v=20260829-v15',
-  'cloud-config.js?v=20260829-v15'
+  'Sky.js?v=20260829-v16',
+  'ui.js?v=20260829-v16',
+  'auth.js?v=20260829-v16',
+  'api-client.js?v=20260829-v16',
+  'cloud-config.js?v=20260829-v16'
 ];
 
 self.addEventListener('install', event => {

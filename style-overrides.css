@@ -207,3 +207,47 @@ body,header,.skyline-drawer,.timeline-composer,.timeline-post,.timeline-empty,.i
   .compact-create-form textarea{height:40px;min-height:40px;max-height:150px;font-size:13px}
   .skyline-search-card{align-items:stretch!important}
 }
+
+
+/* =========================================================
+   v16 COMMUNITY + COMPOSER + REGISTERED AVATAR REFINEMENTS
+   ========================================================= */
+.community-link{
+  min-height:46px!important;
+  padding:0 15px!important;
+  margin:0 0 12px!important;
+  gap:10px!important;
+  border:1px solid rgba(99,167,255,.45)!important;
+  border-radius:14px!important;
+  background:linear-gradient(145deg,rgba(99,167,255,.16),rgba(47,128,237,.06))!important;
+  color:var(--sky)!important;
+  box-shadow:0 6px 18px rgba(47,128,237,.08);
+  letter-spacing:.10em!important;
+  transition:.18s ease!important;
+}
+.community-link:hover,.community-link:focus-visible{
+  background:var(--sky)!important;
+  color:#071426!important;
+  border-color:var(--sky)!important;
+  text-decoration:none!important;
+  transform:translateY(-1px);
+}
+.community-link-arrow{font-size:27px;line-height:1;font-weight:400;letter-spacing:0;margin-top:-2px}
+.community-link-label{line-height:1}
+.compact-create-form{position:relative;align-items:flex-start!important}
+.compact-create-main{min-width:0;flex:1;display:flex;flex-direction:column;gap:7px}
+.compact-create-form textarea{width:100%;box-sizing:border-box}
+.composer-tools{display:none;gap:6px;flex-wrap:wrap;padding:0 3px 1px}
+.compact-create-form.composer-focused .composer-tools{display:flex}
+.composer-tool{height:30px!important;padding:0 9px!important;border:1px solid var(--line)!important;border-radius:9px!important;background:var(--panel-2)!important;color:var(--muted)!important;font:600 11px Poppins,sans-serif!important;cursor:pointer!important}
+.composer-tool:hover,.composer-tool:focus-visible{color:var(--sky)!important;border-color:rgba(99,167,255,.55)!important}
+.composer-tool span{margin-right:4px;font-weight:700}
+.composer-tool:disabled{opacity:.55;cursor:wait!important}
+.sky-post-media{display:block;width:100%;max-height:540px;object-fit:cover;border-radius:16px}
+@media(max-width:700px){
+  .community-link{min-height:42px!important;padding:0 12px!important;margin-bottom:9px!important}
+  .community-link-label{font-size:11px!important}
+  .compact-create-form{gap:6px!important}
+  .composer-tools{gap:5px}
+  .composer-tool{height:28px!important;padding:0 8px!important;font-size:10px!important}
+}
