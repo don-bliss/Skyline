@@ -1,0 +1,45 @@
+SkyLine v20 Render/Login Fix
+================================
+
+This package fixes two production issues:
+
+1) Render reverse proxy + express-rate-limit
+   backend/server.js now contains:
+       app.set('trust proxy', 1);
+
+   This must remain before the API rate limiter.
+
+2) GitHub Pages cross-origin login requests
+   api-client.js now uses:
+       credentials: 'omit'
+
+   SkyLine authenticates with Bearer tokens, not cookies. This avoids requiring
+   Access-Control-Allow-Credentials for cross-origin GitHub Pages requests.
+
+Deployment checklist
+--------------------
+GitHub Pages:
+- Upload/deploy the updated frontend files, including api-client.js.
+- Keep cloud-config.js pointing to:
+  https://skyline-gmut.onrender.com
+
+Render Web Service:
+- Root Directory: backend
+- Build Command: npm install
+- Start Command: npm start
+- Environment:
+    NODE_ENV=production
+    WEB_ORIGIN=https://don-bliss.github.io
+    DATABASE_URL=<your Render PostgreSQL connection string>
+    SKYLINE_JWT_SECRET=<random secret, at least 32 characters>
+
+After deployment:
+- Wait for Render logs to show:
+    SkyLine API listening on 10000
+- Open:
+    https://skyline-gmut.onrender.com/api/v1/health
+- It should return JSON showing ok: true and database: postgres.
+- Then test login from GitHub Pages.
+
+Important:
+Do not commit or publish real DATABASE_URL or SKYLINE_JWT_SECRET values.

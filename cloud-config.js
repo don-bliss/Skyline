@@ -1,6 +1,5 @@
-/* SkyLine v18 connection settings.
-   Cross-device authentication is connected to the deployed HTTPS API.
-   Do not put database passwords, JWT secrets, or service-role keys here.
+/* SkyLine v20 API connection.
+   The browser only receives this public API URL. Never place DATABASE_URL or SKYLINE_JWT_SECRET here.
 */
 window.SKYLINE_API = { baseUrl: "https://skyline-gmut.onrender.com" };
 window.SKYLINE_CLOUD = {

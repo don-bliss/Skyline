@@ -13,7 +13,20 @@
     const headers = { 'Content-Type':'application/json', ...(options.headers || {}) };
     const token = getToken();
     if (token) headers.Authorization = `Bearer ${token}`;
-    const res = await fetch(`${cfg.baseUrl.replace(/\/$/,'')}${path}`, { ...options, headers, credentials:'include' });
+    let res;
+    try {
+      // SkyLine uses Bearer tokens in localStorage, not cookies. Omitting browser
+      // credentials avoids a cross-origin CORS credential requirement on GitHub Pages.
+      res = await fetch(`${cfg.baseUrl.replace(/\/$/,'')}${path}`, {
+        ...options,
+        headers,
+        credentials: 'omit'
+      });
+    } catch (error) {
+      console.error('SkyLine API network error:', error);
+      throw new Error('Unable to reach the SkyLine server. Please try again in a moment.');
+    }
+
     if (res.status === 401 && retry && path !== '/api/v1/auth/login' && path !== '/api/v1/auth/refresh') {
       const refreshToken = localStorage.getItem(REFRESH_KEY);
       if (refreshToken) {

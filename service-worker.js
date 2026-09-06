@@ -4,11 +4,11 @@ const SHELL = [
   'index.html',
   'base.css',
   'style-overrides.css',
-  'Sky.js?v=20260829-v18',
-  'ui.js?v=20260829-v18',
-  'auth.js?v=20260829-v18',
-  'api-client.js?v=20260829-v18',
-  'cloud-config.js?v=20260829-v18'
+  'Sky.js?v=20260830-v19',
+  'ui.js?v=20260830-v19',
+  'auth.js?v=20260830-v19',
+  'api-client.js?v=20260830-v19',
+  'cloud-config.js?v=20260830-v19'
 ];
 
 self.addEventListener('install', event => {
