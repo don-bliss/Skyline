@@ -1,0 +1,23 @@
+SkyLine v22 deployment order
+
+1. Deploy the frontend as usual without changing its existing layout settings.
+2. Deploy the backend folder as a Render Web Service.
+3. Connect the backend to Render Postgres.
+4. In Render > backend service > Environment, set:
+   WEB_ORIGIN=https://don-bliss.github.io
+   SKYLINE_JWT_SECRET=<random 32+ character secret>
+   DATABASE_URL=<Render Postgres internal connection string>
+   RESEND_API_KEY=<Resend key>
+   EMAIL_FROM=SkyLine <verified@yourdomain>
+   TWILIO_ACCOUNT_SID=<Twilio SID>
+   TWILIO_AUTH_TOKEN=<Twilio auth token>
+   TWILIO_VERIFY_SERVICE_SID=<Twilio Verify service SID>
+   DEFAULT_PHONE_COUNTRY=NG
+5. Save, rebuild and deploy.
+6. Keep TERMII variables blank when using Twilio Verify globally.
+
+Phone behavior:
+- +2347078244326 is stored as the canonical identity.
+- 7078244326 is the default visible username/account number where unique.
+- If that visible number is already used, a small numeric suffix is added to preserve uniqueness.
+- Users can later customize their username without changing the account number.

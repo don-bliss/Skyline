@@ -76,11 +76,11 @@
     return getLocalSession();
   }
 
-  async function signUp({ name, email, phone, password, avatar }) {
+  async function signUp({ name, email, phone, country, password, avatar }) {
     email = email.trim().toLowerCase();
-    const acc = accountNumber();
+    const digits=String(phone||'').replace(/\D/g,''); let normalizedPhone=digits.startsWith('234')&&digits.length===13?'0'+digits.slice(3):digits; const acc=normalizedPhone.replace(/^0/,'');
     if (window.SkyLineAPI?.isConfigured?.()) {
-      const result = await window.SkyLineAPI.authSignup({ name, email, phone, password, avatar: avatar || "" });
+      const result = await window.SkyLineAPI.authSignup({ name, email, phone, country, password, avatar: avatar || "" });
       window.SkyLineAPI.setTokens(result.accessToken, result.refreshToken);
       const user = normalizeUser(result.user);
       setLocalSession(user);
@@ -98,7 +98,7 @@
     const users = getUsers();
     if (users.some(u => u.email === email)) throw new Error("An account already exists with that email.");
     const passwordHash = await sha256(password);
-    const user = { id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), name: name.trim(), email, phone: phone.trim(), accountNumber: acc, username: acc, avatar: avatar || "", balance: 0, passwordHash, createdAt: new Date().toISOString(), emailVerified: false };
+    const user = { id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), name: name.trim(), email, phone: normalizedPhone, accountNumber: acc, username: acc, avatar: avatar || "", balance: 0, passwordHash, createdAt: new Date().toISOString(), emailVerified: false };
     users.push(user); saveUsers(users);
     return { user: normalizeUser(user), needsEmailConfirmation: false };
   }

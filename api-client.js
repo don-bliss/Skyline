@@ -57,6 +57,8 @@
     me: () => request('/api/v1/me'),
     profile: () => request('/api/v1/profile'),
     updateProfile: body => request('/api/v1/profile', {method:'PATCH', body:JSON.stringify(body)}),
+    sendVerification: kind => request(`/api/v1/verification/${kind}/send`, {method:'POST', body:JSON.stringify({})}),
+    confirmVerification: (kind, code) => request(`/api/v1/verification/${kind}/confirm`, {method:'POST', body:JSON.stringify({code})}),
     timeline: () => request('/api/v1/timeline'),
     trends: () => request('/api/v1/feed/trends'),
     mutuals: () => request('/api/v1/feed/mutuals'),
