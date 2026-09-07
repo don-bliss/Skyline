@@ -1,4 +1,4 @@
-const CACHE = 'skyline-shell-v18';
+const CACHE = 'skyline-shell-v23';
 const SHELL = [
   './',
   'index.html',

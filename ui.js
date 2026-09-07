@@ -119,7 +119,7 @@
     const syncThemeSwitch=()=>{const dark=document.body.classList.contains('dark-mode'); if(themeSwitch){themeSwitch.classList.toggle('on',dark);themeSwitch.setAttribute('aria-checked',String(dark));themeSwitch.title=dark?'Switch to light mode':'Switch to dark mode'; themeSwitch.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}};
     themeSwitch?.addEventListener('click',(e)=>{e.preventDefault();e.stopPropagation();const dark=document.body.classList.contains('dark-mode');const next=dark?'light':'dark';if(typeof window.skylineSetTheme==='function'){window.skylineSetTheme(next);}else{document.body.classList.toggle('dark-mode',next==='dark');localStorage.setItem('skylineTheme',next);}syncThemeSwitch();});
     syncThemeSwitch();
-    document.addEventListener('click',e=>{const target=e.target.closest('[data-profile-link], .profile-card, [data-profile-icon]');if(!target || drawer.contains(target)) return;if(target.tagName==='A' && target.getAttribute('href')==='profile.html') return;e.preventDefault();location.href='profile.html';});
+    document.addEventListener('click',e=>{const target=e.target.closest('[data-own-profile-link]');if(!target || drawer.contains(target)) return;e.preventDefault();location.href='profile.html';});
   }
 
   document.addEventListener('DOMContentLoaded', syncRegisteredAvatar);

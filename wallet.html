@@ -1,9 +1,44 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SkyLine | Wallet</title><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="style-overrides.css"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></head><body><header><div class="brand-stack"><div class="logo"><a href="timeline.html">Sky<span>Line</span></a></div><span class="header-username" data-user-username></span></div><nav></nav></header>
-<main class="wallet-dashboard"><div class="wallet-hero"><div><span class="eyebrow">SkyLine Wallet</span><h1 data-user-name>SkyLine User</h1><p>Account <strong data-user-account>0000000000</strong></p><small id="walletIdentity">Loading registered account information…</small></div><div class="wallet-balance-large"><small>Available balance</small><strong data-user-balance>₦0.00</strong></div></div>
-<section class="info-grid wallet-info-grid"><div class="info-card"><h3>Account name</h3><p id="walletName">—</p></div><div class="info-card"><h3>Registered phone</h3><p id="walletPhone">—</p><small id="walletPhoneStatus"></small></div><div class="info-card"><h3>Registered email</h3><p id="walletEmail">—</p><small id="walletEmailStatus"></small></div></section>
-<div class="wallet-actions-grid"><button data-wallet-action="add"><span>＋</span><b>Add Money</b><small>Provider integration pending</small></button><button data-wallet-action="transfer"><span>⇄</span><b>Transfer</b><small>Secure transfer backend pending</small></button><button onclick="location.href='crypto.html'"><span>↗</span><b>Exchange</b><small>Buy or sell crypto</small></button><button data-wallet-action="bills"><span>▣</span><b>Bills Payment</b><small>Coming with payment provider</small></button><button data-wallet-action="history"><span>◷</span><b>Transactions</b><small>View account activity</small></button><button onclick="location.href='profile.html'"><span>⚙</span><b>Account</b><small>Profile and verification</small></button></div>
-<section class="wallet-section"><h2>Recent activity</h2><div id="transactions" class="wallet-empty"><strong>No transactions yet</strong><p>Your verified transaction history will appear here.</p></div></section></main>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkyLine | Wallet</title>
+<link rel="stylesheet" href="base.css"><link rel="stylesheet" href="style-overrides.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head><body>
+<header><div class="brand-stack"><div class="logo"><a href="timeline.html">Sky<span>Line</span></a></div><span class="header-username" data-user-username></span></div><nav></nav></header>
+<main class="wallet-dashboard">
+  <div class="wallet-hero">
+    <div><span class="eyebrow">SkyLine Wallet</span><h1 data-user-name>SkyLine User</h1><p>Account <strong data-user-account>0000000000</strong></p><small id="walletIdentity">Loading your secure wallet…</small></div>
+    <div class="wallet-balance-large"><small>Available balance</small><strong data-user-balance>₦0.00</strong></div>
+  </div>
+  <section class="info-grid wallet-info-grid wallet-core-grid">
+    <div class="info-card"><h3>Account name</h3><p id="walletName">—</p></div>
+    <div class="info-card"><h3>Account number</h3><p id="walletNumber">—</p></div>
+    <div class="info-card"><h3>Available balance</h3><p id="walletBalance">₦0.00</p></div>
+  </section>
+  <div class="wallet-history-link"><a href="transactions.html" class="wallet-history-button">◷ <span>Transaction history</span></a></div>
+  <div class="wallet-actions-grid">
+    <button data-wallet-action="add"><span>＋</span><b>Add Money</b><small>Provider integration pending</small></button>
+    <button data-wallet-action="transfer"><span>⇄</span><b>Transfer</b><small>Secure transfer backend pending</small></button>
+    <button onclick="location.href='crypto.html'"><span>↗</span><b>Exchange</b><small>Buy or sell crypto</small></button>
+    <button data-wallet-action="bills"><span>▣</span><b>Bills Payment</b><small>Coming with payment provider</small></button>
+  </div>
+</main>
 <div class="wallet-modal" id="walletModal"><div class="wallet-modal-card"><button class="wallet-modal-close" id="walletModalClose">×</button><h2 id="walletModalTitle">SkyLine Wallet</h2><p id="walletModalText"></p><button class="composer-submit" id="walletModalOk">Continue</button></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js"></script><script src="api-client.js"></script><script src="auth.js"></script><script src="Sky.js"></script><script src="ui.js"></script><script>
-(()=>{const fmt=n=>'₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});async function load(){try{const d=await SkyLineAPI.wallet(),w=d.wallet;document.querySelector('[data-user-name]').textContent=w.accountName;document.querySelector('[data-user-account]').textContent=w.accountNumber;document.querySelector('[data-user-balance]').textContent=fmt(w.balance);document.getElementById('walletIdentity').textContent='Your wallet is linked to your permanent SkyLine account number.';document.getElementById('walletName').textContent=w.accountName;document.getElementById('walletPhone').textContent=w.phone;document.getElementById('walletEmail').textContent=w.email;document.getElementById('walletPhoneStatus').textContent=w.phoneVerified?'✓ Phone verified':'Phone verification pending';document.getElementById('walletEmailStatus').textContent=w.emailVerified?'✓ Email verified':'Email verification pending';const box=document.getElementById('transactions');if(d.transactions?.length)box.innerHTML=d.transactions.map(t=>`<div class="transaction-row"><b>${t.description||t.type}</b><span>${fmt(t.amount)}</span></div>`).join('');}catch(e){document.getElementById('walletIdentity').textContent='Unable to load wallet information: '+e.message;}}load();document.querySelectorAll('[data-wallet-action]').forEach(b=>b.onclick=()=>{const x=b.dataset.walletAction==='history'?['Transactions','Transaction history is securely linked to this account and will appear here as activity is added.']:['Coming soon','This action requires a licensed payment provider and secure financial backend. Your account identity is already linked and ready.'];document.getElementById('walletModalTitle').textContent=x[0];document.getElementById('walletModalText').textContent=x[1];document.getElementById('walletModal').classList.add('show');});document.getElementById('walletModalClose').onclick=()=>document.getElementById('walletModal').classList.remove('show');document.getElementById('walletModalOk').onclick=()=>document.getElementById('walletModal').classList.remove('show');})();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js"></script><script src="api-client.js"></script><script src="auth.js"></script><script src="Sky.js"></script><script src="ui.js"></script>
+<script>
+(()=>{const fmt=n=>'₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});
+async function load(){try{const d=await SkyLineAPI.wallet(),w=d.wallet;
+document.querySelector('[data-user-name]').textContent=w.accountName||'SkyLine User';
+document.querySelector('[data-user-account]').textContent=w.accountNumber||'—';
+document.querySelector('[data-user-balance]').textContent=fmt(w.balance);
+document.getElementById('walletIdentity').textContent='Your wallet is linked securely to your permanent SkyLine account.';
+document.getElementById('walletName').textContent=w.accountName||'—';
+document.getElementById('walletNumber').textContent=w.accountNumber||'—';
+document.getElementById('walletBalance').textContent=fmt(w.balance);
+}catch(e){document.getElementById('walletIdentity').textContent='Unable to load wallet information: '+e.message;}}
+load();
+document.querySelectorAll('[data-wallet-action]').forEach(b=>b.onclick=()=>{document.getElementById('walletModalTitle').textContent='Coming soon';document.getElementById('walletModalText').textContent='This action requires a licensed payment provider and secure financial backend. Your wallet identity is already linked and ready.';document.getElementById('walletModal').classList.add('show');});
+document.getElementById('walletModalClose').onclick=()=>document.getElementById('walletModal').classList.remove('show');
+document.getElementById('walletModalOk').onclick=()=>document.getElementById('walletModal').classList.remove('show');})();
 </script></body></html>

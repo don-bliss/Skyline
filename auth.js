@@ -54,7 +54,10 @@
       accountNumber: u.accountNumber || u.user_metadata?.account_number || "",
       username: u.username || u.user_metadata?.username || u.accountNumber || u.user_metadata?.account_number || "",
       balance: Number(u.balance ?? u.user_metadata?.balance ?? 0),
-      avatar: u.avatar || u.user_metadata?.avatar || ""
+      avatar: u.avatar || u.user_metadata?.avatar || "",
+      emailVerified: Boolean(u.emailVerified ?? u.user_metadata?.email_verified),
+      phoneVerified: Boolean(u.phoneVerified ?? u.user_metadata?.phone_verified),
+      verificationRequired: Boolean(u.verificationRequired)
     };
   }
 
