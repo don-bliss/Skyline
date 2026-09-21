@@ -56,6 +56,7 @@
     authLogout: () => request('/api/v1/auth/logout', {method:'POST'}),
     me: () => request('/api/v1/me'),
     profile: () => request('/api/v1/profile'),
+    publicProfile: username => request(`/api/v1/public/profile/${encodeURIComponent(String(username||'').replace(/^@/,''))}`),
     updateProfile: body => request('/api/v1/profile', {method:'PATCH', body:JSON.stringify(body)}),
     verificationStatus: () => request('/api/v1/verification/status'),
     sendVerification: kind => request(`/api/v1/verification/${kind}/send`, {method:'POST', body:JSON.stringify({})}),
