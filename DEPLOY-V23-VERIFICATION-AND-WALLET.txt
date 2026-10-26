@@ -1,0 +1,21 @@
+SkyLine v23 final deployment notes
+
+Render backend environment:
+DATABASE_URL=<Render Postgres connection string>
+SKYLINE_JWT_SECRET=<32+ character random secret>
+WEB_ORIGIN=https://don-bliss.github.io
+RESEND_API_KEY=<your Resend API key>
+EMAIL_FROM=SkyLine <verify@your-verified-domain.com>
+
+For international SMS verification use:
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_VERIFY_SERVICE_SID=
+
+Only one SMS provider is needed. If using Twilio Verify globally, leave Termii blank.
+
+Important:
+1. Resend requires a valid API key.
+2. Production email should use a domain verified in Resend. The fallback onboarding address is only useful for limited Resend testing.
+3. Existing unverified users can now sign in securely and are routed to Profile > Verification instead of being locked out.
+4. Wallet now exposes only account name, account number and balance. Transaction history has its own page.

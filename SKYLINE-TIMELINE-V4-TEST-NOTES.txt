@@ -1,0 +1,7 @@
+Skyline Timeline v5 layout patch
+1. Bottom nav centered in a max 440px pill. On upward scroll it drifts downward briefly, then settles.
+2. Create post/story button is inside Stories & Reels, beneath the section heading.
+3. Trends, Mutuals, Explore and Marketplace tabs are moved to the top directly below the header.
+4. Skyline Community callout sits directly above Stories & Reels, after the four tabs.
+
+Test with Live Server before deployment. Verify tab switching, composer modal, media/GIF/location, publish, drafts and nav positioning. Browser end-to-end test not performed.

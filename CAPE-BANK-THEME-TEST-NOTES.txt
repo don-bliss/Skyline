@@ -1,0 +1,27 @@
+Skyline × Cape Bank theme update
+================================
+Built from the uploaded Skyline v25 ZIP. Cape Bank ZIP was used as a visual reference
+for the palette (navy/blue header, pale blue-grey canvas, white cards, dark navy text,
+subtle borders and accent colors).
+
+Included:
+- Shared light/dark theme layer in style-overrides.css.
+- Light mode uses Cape Bank's light surfaces and typography.
+- Dark mode preserves the brand blue header while using dark surfaces and readable text.
+- Theme persistence continues to use Skyline's existing skylineTheme localStorage setting.
+- Timeline composer now begins as a clickable "What's on your mind?" button.
+- Clicking opens the editor; text area grows with typed/pasted text and preserves content.
+- Existing form submit handlers and existing post flow are retained.
+- Service worker cache version bumped to force updated assets.
+
+How to test:
+1. Extract into a NEW folder and open timeline.html with VS Code Live Server.
+2. Open menu → switch Dark mode on/off; navigate to other pages and reload to verify persistence.
+3. On timeline, click the "What's on your mind?" bar, type several paragraphs, and verify text remains.
+4. Test publish and media controls.
+5. Hard refresh if stale CSS remains (Ctrl+Shift+R on Windows).
+
+Caution:
+- This is a frontend theme/composer change, not recovery of expired database data.
+- Wallet/payment controls must not be treated as real banking functionality without a real,
+  audited backend and payment provider. Verify API/environment settings before deployment.

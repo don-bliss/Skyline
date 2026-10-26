@@ -1,0 +1,4 @@
+Hotfix for timeline composer from user screenshot.
+The compact prompt remains visible until clicked; editor and media tools are hidden while collapsed.
+After clicking, editor and tools appear, publish is visible, textarea autosizes while retaining its value.
+Test timeline.html using Live Server; hard refresh after opening.

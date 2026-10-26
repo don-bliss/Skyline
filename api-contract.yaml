@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: SkyLine API
+  version: 1.0.0
+  description: Backend contract for authentication, social timeline, notifications and wallet services.
+servers:
+  - url: https://api.example.com
+paths:
+  /api/v1/health: { get: { responses: { '200': { description: OK } } } }
+  /api/v1/me: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Current user } } } }
+  /api/v1/profile: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Profile } } }, patch: { security: [{sessionCookie: []}], responses: { '200': { description: Updated profile } } } }
+  /api/v1/timeline: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Timeline feed } } } }
+  /api/v1/timeline/posts: { post: { security: [{sessionCookie: []}], responses: { '201': { description: Post created } } } }
+  /api/v1/notifications: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Notifications } } } }
+  /api/v1/wallet: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Wallet summary } } } }
+  /api/v1/transfers/quote: { post: { security: [{sessionCookie: []}], responses: { '200': { description: Transfer quote } } } }
+  /api/v1/transfers: { post: { security: [{sessionCookie: []}], responses: { '201': { description: Transfer initiated } } } }
+  /api/v1/transactions: { get: { security: [{sessionCookie: []}], responses: { '200': { description: Transaction history } } } }
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: __Host-skyline_session

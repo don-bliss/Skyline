@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SkyLine | Profile</title><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="style-overrides.css"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></head><body>
+<header><div class="logo"><a href="timeline.html">Sky<span>Line</span></a></div><nav></nav></header>
+<main class="profile-page"><div class="profile-cover"></div><section class="profile-card-v2 profile-full">
+<img class="profile-avatar-v2" id="profileAvatar" src="assets/default-avatar.svg" alt="Profile"><input id="avatarInput" type="file" accept="image/*" hidden><button class="profile-edit-avatar" id="changeAvatar">Change photo</button>
+<h1 id="profileDisplayName">SkyLine User</h1><p class="profile-handle" data-profile-handle>@username</p><p id="profileBio"></p>
+<div class="profile-stats"><div class="profile-stat"><strong>0</strong><span>Posts</span></div><div class="profile-stat"><strong>0</strong><span>Following</span></div><div class="profile-stat"><strong>0</strong><span>Followers</span></div></div>
+<div class="profile-tabs"><button class="active" data-tab="overview">Overview</button><button data-tab="edit">Edit profile</button><button data-tab="security">Verification</button></div>
+<section class="profile-panel" id="overviewPanel"><div class="info-grid"><div class="info-card" id="profileAccountCard"><h3>SkyLine account</h3><p><b id="profileAccountNumber">—</b></p><small>Permanent account number</small></div><div class="info-card" id="profileWalletCard"><h3>Wallet</h3><p><b id="profileWalletBalance">₦0.00</b></p><a href="wallet.html">Open wallet →</a></div><div class="info-card"><h3>Contact</h3><p id="overviewEmail">—</p><p id="overviewPhone">—</p></div><div class="info-card"><h3>Profile</h3><p id="overviewLocation">No location added</p><p id="overviewWebsite">No website added</p></div></div></section>
+<section class="profile-panel" id="editPanel" hidden><form id="profileForm" class="profile-form"><label>Display name<input id="editName" maxlength="80"></label><label>Username<input id="editUsername" maxlength="24" placeholder="your_username"></label><small>Your original phone-derived username can be changed, but your account number remains permanent.</small><label>Bio<textarea id="editBio" maxlength="300" rows="4" placeholder="Tell the community about yourself"></textarea></label><label>Location<input id="editLocation" maxlength="80" placeholder="City, Country"></label><label>Website<input id="editWebsite" maxlength="200" placeholder="https://example.com"></label><button class="composer-submit" type="submit">Save profile changes</button><p class="profile-message" id="profileMessage"></p></form></section>
+<section class="profile-panel" id="securityPanel" hidden><div class="verify-grid"><article class="verify-item"><h3>Email address</h3><p id="verifyEmail">—</p><span id="emailStatus" class="verify-status">Checking…</span><div class="verify-actions"><button data-send="email">Send code</button><input data-code="email" inputmode="numeric" maxlength="6" placeholder="6-digit code"><button data-confirm="email">Verify</button></div></article><article class="verify-item"><h3>Phone number</h3><p id="verifyPhone">—</p><span id="phoneStatus" class="verify-status">Checking…</span><div class="verify-actions"><button data-send="phone">Send code</button><input data-code="phone" inputmode="numeric" maxlength="6" placeholder="6-digit code"><button data-confirm="phone">Verify</button></div></article></div><p class="profile-message" id="verifyMessage"></p></section>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js"></script><script src="api-client.js"></script><script src="auth.js"></script><script src="Sky.js"></script><script src="ui.js"></script>
+<script>
+(()=> {
+  const $=s=>document.querySelector(s);
+  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const demoProfiles={
+    olusina:{name:'Olusina Stephen',username:'olusina',avatar:'assets/demo-sunset.svg',bio:'Sharing everyday moments, street energy and good vibes.',location:'Lagos, Nigeria'},
+    skyline:{name:'SkyLine Community',username:'skyline',avatar:'assets/demo-city.svg',bio:'The official SkyLine community account.',location:'SkyLine'},
+    aminabello:{name:'Amina Bello',username:'aminabello',avatar:'assets/demo-food.svg',bio:'Small wins still count. Keep moving.',location:'Abuja, Nigeria'},
+    michaeljames:{name:'Michael James',username:'michaeljames',avatar:'assets/demo-city.svg',bio:'Building, learning and sharing the journey.',location:'Lagos, Nigeria'},
+    sarahjohnson:{name:'Sarah Johnson',username:'sarahjohnson',avatar:'assets/demo-fashion.svg',bio:'Places, style and little discoveries.',location:'Accra, Ghana'},
+    danielokafor:{name:'Daniel Okafor',username:'danielokafor',avatar:'assets/demo-food.svg',bio:'Consistency beats intensity.',location:'Enugu, Nigeria'},
+    worlddesk:{name:'SkyLine World Desk',username:'worlddesk',avatar:'assets/demo-city.svg',bio:'World news and updates for the SkyLine community.',location:'SkyLine'},
+    skylinebusiness:{name:'SkyLine Business',username:'skylinebusiness',avatar:'assets/demo-sunset.svg',bio:'Business conversations and market updates.',location:'SkyLine'},
+    skylinetech:{name:'SkyLine Tech',username:'skylinetech',avatar:'assets/demo-city.svg',bio:'Technology, products and AI conversations.',location:'SkyLine'},
+    chidistores:{name:'Chidi Stores',username:'chidistores',avatar:'assets/demo-fashion.svg',bio:'Premium products and nationwide delivery.',location:'Lagos, Nigeria'},
+    adafashion:{name:'Ada Fashion',username:'adafashion',avatar:'assets/demo-fashion.svg',bio:'Fashion finds and original pieces.',location:'Lagos, Nigeria'},
+    techhub:{name:'Tech Hub',username:'techhub',avatar:'assets/demo-city.svg',bio:'Tested tech and refurbished devices.',location:'Lagos, Nigeria'}
+  };
+  let user=null, ownProfile=false;
+
+  function render(u){
+    user=u||{};
+    $('#profileDisplayName').textContent=user.name||'SkyLine User';
+    $('#profileAccountNumber').textContent=ownProfile?(user.accountNumber||'—'):'Private';
+    $('#profileWalletBalance').textContent=ownProfile?('₦'+Number(user.balance||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})):'Private';
+    $('#profileAccountCard').hidden=!ownProfile;
+    $('#profileWalletCard').hidden=!ownProfile;
+    $('#profileAvatar').src=user.avatar||'assets/default-avatar.svg';
+    $('#profileAvatar').onerror=()=>{$('#profileAvatar').src='assets/default-avatar.svg';};
+    $('[data-profile-handle]').textContent='@'+(user.username||user.accountNumber||'username');
+    $('#profileBio').textContent=user.bio||'No bio yet.';
+    $('#overviewEmail').textContent=ownProfile?(user.email||'—'):'Public profile';
+    $('#overviewPhone').textContent=ownProfile?(user.phone||'—'):'—';
+    $('#overviewLocation').textContent=user.location||'No location added';
+    $('#overviewWebsite').innerHTML=user.website?`<a href="${esc(user.website)}" target="_blank" rel="noopener">${esc(user.website)}</a>`:'No website added';
+    $('#editName').value=user.name||'';
+    $('#editUsername').value=user.username||'';
+    $('#editBio').value=user.bio||'';
+    $('#editLocation').value=user.location||'';
+    $('#editWebsite').value=user.website||'';
+    $('#verifyEmail').textContent=user.email||'—';
+    $('#verifyPhone').textContent=user.phone||'—';
+    $('#emailStatus').textContent=user.emailVerified?'✓ Verified':'Not verified';
+    $('#phoneStatus').textContent=user.phoneVerified?'✓ Verified':'Not verified';
+    $('#emailStatus').className='verify-status '+(user.emailVerified?'verified':'pending');
+    $('#phoneStatus').className='verify-status '+(user.phoneVerified?'verified':'pending');
+    const title=$('.profile-card-v2 h1'); if(title) title.textContent=user.name||'SkyLine User';
+    document.title=`SkyLine | ${user.name||'Profile'}`;
+    const editButton=$('#changeAvatar');
+    if(editButton) editButton.hidden=!ownProfile;
+    $('#avatarInput').hidden=!ownProfile;
+    document.querySelector('.profile-tabs').style.display=ownProfile?'flex':'none';
+    if(!ownProfile){
+      ['#editPanel','#securityPanel'].forEach(id=>$(id).hidden=true);
+      $('#overviewPanel').hidden=false;
+      document.querySelectorAll('.profile-stat strong')[0].textContent='—';
+    }
+  }
+
+  async function load(){
+    const requested=String(new URLSearchParams(location.search).get('user')||'').replace(/^@/,'').trim().toLowerCase();
+    let session=null;
+    try{session=await window.skylineGetSession?.()||JSON.parse(localStorage.getItem('skylineUser')||'null');}catch(_){}
+    const currentName=String(session?.username||session?.accountNumber||'').replace(/^@/,'').toLowerCase();
+    ownProfile=!requested || requested===currentName;
+    try{
+      if(ownProfile){
+        const d=window.SkyLineAPI?.isConfigured?.()?await SkyLineAPI.profile():{user:session};
+        if(!d?.user)throw new Error('Your profile could not be loaded.');
+        render(d.user); localStorage.setItem('skylineUser',JSON.stringify(d.user));
+      }else{
+        let d=null;
+        if(window.SkyLineAPI?.isConfigured?.()) d=await SkyLineAPI.publicProfile(requested);
+        if(d?.user) render(d.user);
+        else if(demoProfiles[requested]) render(demoProfiles[requested]);
+        else throw new Error('Profile not found.');
+      }
+    }catch(e){
+      if(!ownProfile && demoProfiles[requested]) render(demoProfiles[requested]);
+      else $('#profileMessage').textContent=e.message||'Unable to load profile.';
+    }
+  }
+
+  $('.profile-tabs').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-tab]');if(!b)return;
+    document.querySelectorAll('.profile-tabs button').forEach(x=>x.classList.toggle('active',x===b));
+    ['overview','edit','security'].forEach(x=>$('#'+x+'Panel').hidden=x!==b.dataset.tab);
+  });
+  $('#profileForm').addEventListener('submit',async e=>{
+    e.preventDefault(); if(!ownProfile)return;
+    const body={name:$('#editName').value,username:$('#editUsername').value,bio:$('#editBio').value,location:$('#editLocation').value,website:$('#editWebsite').value,avatar:user.avatar||''};
+    try{const d=await SkyLineAPI.updateProfile(body);render(d.user);localStorage.setItem('skylineUser',JSON.stringify(d.user));$('#profileMessage').textContent='Profile saved successfully.';}catch(err){$('#profileMessage').textContent=err.message;}
+  });
+  $('#changeAvatar').onclick=()=>$('#avatarInput').click();
+  $('#avatarInput').onchange=()=>{
+    const f=$('#avatarInput').files?.[0];if(!f)return;
+    if(f.size>2*1024*1024){alert('Please choose an image smaller than 2 MB.');return;}
+    const r=new FileReader();r.onload=()=>{$('#profileAvatar').src=r.result;user.avatar=r.result;};r.readAsDataURL(f);
+  };
+  document.querySelectorAll('[data-send]').forEach(b=>b.onclick=async()=>{
+    const kind=b.dataset.send,original=b.textContent;b.disabled=true;b.textContent='Sending…';$('#verifyMessage').textContent='Requesting a secure verification code…';
+    try{const status=await SkyLineAPI.verificationStatus();if(!status[kind]?.configured)throw new Error(kind==='email'?'Email delivery is not configured on the server yet. Add RESEND_API_KEY and a valid EMAIL_FROM in Render.':'Phone verification is not configured on the server yet. Add Twilio Verify or Termii credentials in Render.');const r=await SkyLineAPI.sendVerification(kind);$('#verifyMessage').textContent=r.message||`Verification code sent to your ${kind}. Check your ${kind==='email'?'inbox':'phone'}.`;}catch(e){$('#verifyMessage').textContent=e.message;}finally{b.disabled=false;b.textContent=original;}
+  });
+  document.querySelectorAll('[data-confirm]').forEach(b=>b.onclick=async()=>{
+    const kind=b.dataset.confirm,code=$(`[data-code="${kind}"]`).value.trim();
+    try{const d=await SkyLineAPI.confirmVerification(kind,code);render(d.user);localStorage.setItem('skylineUser',JSON.stringify(d.user));$('#verifyMessage').textContent=kind+' verified successfully.';}catch(e){$('#verifyMessage').textContent=e.message;}
+  });
+  load();
+})();
+</script></body></html>

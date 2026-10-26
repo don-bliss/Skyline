@@ -1,0 +1,5 @@
+Skyline composer auto-expand fix v3
+
+Fixes the textarea height recalculation by collapsing its inline height before measuring scrollHeight, then setting the height to fit wrapped text. Input and paste events trigger resizing; text content is never replaced or reset by the resizing logic. The editor has a viewport-based maximum height and scrolls internally for very long posts.
+
+Test: extract into a new folder, run timeline.html with Live Server, hard refresh (Ctrl+Shift+R), click the composer, type/paste multiple lines, and verify the textarea grows. This archive has not been live-browser tested.
