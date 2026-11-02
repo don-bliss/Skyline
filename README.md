@@ -75,3 +75,6 @@ Cross-device account login still requires the production cloud authentication ba
 - Repackaged the complete v12 Timeline Composer update as a fresh Version 13 archive after the previous download artifact became unavailable.
 - Preserves the compact timeline layout, expandable create-post composer, header search, four timeline sections, Skyline Community popup/rooms, and Marketplace Pay prototype.
 - Cache-busting application script versions were advanced to v13.
+
+## v26 social API activation
+See `README-V26-CHANGES.md` for the social API routes, PostgreSQL setup and deployment checklist. The v26 backend adds persistent posts, likes, comments, follows and notifications. It does not activate real-money payments, crypto trading or production-grade messaging.

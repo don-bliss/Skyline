@@ -9,7 +9,7 @@ const SHELL = [
   'ui.js?v=20261024-cb1',
   'auth.js?v=20260830-v19',
   'api-client.js?v=20260830-v19',
-  'cloud-config.js?v=local-demo-20261028'
+  'cloud-config.js?v=20260830-v19'
 ];
 
 self.addEventListener('install', event => {

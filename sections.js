@@ -52,13 +52,15 @@
   let interactions = {};
   try { interactions = JSON.parse(localStorage.getItem(INTERACTION_KEY) || '{}'); } catch (_) {}
   let active = 'trends', query = '';
+  const liveApi = () => Boolean(window.SkyLineAPI?.isConfigured?.() && window.SkyLineAPI);
+  async function loadLive(section=active){ if(!liveApi()) return; try { const result=await window.SkyLineAPI.timeline(section); const posts=(result.posts||[]).map(p=>({...p,username:'@'+String(p.username||'').replace(/^@/,''),time:new Date(p.createdAt).toLocaleString(),mediaUrl:p.mediaUrl||'',likes:Number(p.likes)||0,comments:Number(p.comments)||0})); data[section]=posts; render(); } catch(err) { root.innerHTML=`<div class="section-empty">${esc(err.message||'Unable to load posts.')} </div>`; } }
 
   const esc = s => String(s ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const formatCount = n => { n=Number(n)||0; return n>=1000000?(n/1000000).toFixed(n%1000000?'1':'0')+'M':n>=1000?(n/1000).toFixed(n%1000?'1':'0')+'K':String(n); };
   const usernameOf = p => String(p.username || '').replace(/^@/,'').trim();
   const profileHref = p => `profile.html?user=${encodeURIComponent(usernameOf(p))}`;
   const currentUser = async () => window.skylineGetSession?.() || (()=>{try{return JSON.parse(localStorage.getItem('skylineUser')||'null')}catch{return null}})() || {name:'SkyLine User',username:'SkyLineUser'};
-  const getState = p => interactions[p.id] || {liked:false,likes:Number(p.likes)||0,commentCount:Number(p.comments)||0,comments:Array.isArray(p.commentItems)?p.commentItems:[]};
+  const getState = p => interactions[p.id] || {liked:Boolean(p.liked),likes:Number(p.likes)||0,commentCount:Number(p.comments)||0,comments:Array.isArray(p.commentItems)?p.commentItems:[]};
   const saveInteractions = () => localStorage.setItem(INTERACTION_KEY, JSON.stringify(interactions));
 
   function mediaMarkup(p) {
@@ -103,7 +105,7 @@
   tabs.forEach(t=>t.addEventListener('click',()=>{
     active=t.dataset.section;
     tabs.forEach(x=>{x.classList.toggle('active',x===t);x.setAttribute('aria-selected',String(x===t));});
-    render();
+    if(liveApi()) loadLive(active); else render();
   }));
 
   const autoGrowPost=()=>{if(!postText)return;postText.style.height='auto';const max=window.matchMedia('(max-width:700px)').matches?150:170;postText.style.height=Math.min(postText.scrollHeight,max)+'px';postText.style.overflowY=postText.scrollHeight>max?'auto':'hidden';};
@@ -114,6 +116,7 @@
   mediaButton?.addEventListener('click',()=>mediaInput?.click());
   mediaInput?.addEventListener('change',()=>{
     const f=mediaInput.files?.[0]; if(!f)return;
+    if(f.size>2_500_000){alert('Please choose media smaller than 2.5 MB for this release.');mediaInput.value='';return;}
     const r=new FileReader(); r.onload=e=>{composerMedia={url:e.target.result,type:f.type.startsWith('video/')?'video':'image'};}; r.readAsDataURL(f);
   });
   gifButton?.addEventListener('click',()=>{const url=prompt('Paste a GIF URL');if(url?.trim())composerMedia={url:url.trim(),type:'gif'};});
@@ -131,6 +134,7 @@
     const text=postText?.value.trim();
     if(!text&&!composerMedia){postText?.focus();return;}
     const u=await currentUser();
+    if(liveApi()){ try { await window.SkyLineAPI.createPost({text:text||'',mediaUrl:composerMedia?.url||'',mediaType:composerMedia?.type||''}); postText.value=''; if(mediaInput)mediaInput.value=''; composerMedia=null; autoGrowPost(); postForm.classList.remove('composer-focused'); active='trends'; tabs.forEach(x=>{x.classList.toggle('active',x.dataset.section==='trends');x.setAttribute('aria-selected',String(x.dataset.section==='trends'));}); await loadLive('trends'); return; } catch(err){ alert(err.message||'Could not publish.'); return; } }
     const post={id:uid(),name:u?.name||'SkyLine User',username:'@'+String(u?.username||u?.accountNumber||'SkyLineUser').replace(/^@/,''),text:text||'',time:'Just now',likes:0,comments:0,avatar:u?.avatar||'assets/default-avatar.svg',mine:true,mediaUrl:composerMedia?.url||'',mediaType:composerMedia?.type||''};
     data.trends.unshift(post);
     try{localStorage.setItem(DATA_KEY,JSON.stringify({trends:data.trends.filter(p=>p.mine).slice(0,20)}));}catch(_){}
@@ -144,8 +148,8 @@
     const actionBtn=e.target.closest('button[data-action]');
     if(actionBtn){
       const action=actionBtn.dataset.action, s=getState(p);
-      if(action==='like'){s.liked=!s.liked;s.likes=Math.max(0,s.likes+(s.liked?1:-1));interactions[p.id]=s;saveInteractions();render();}
-      if(action==='comment'){const panel=postEl.querySelector('.post-comment-panel');if(panel){panel.hidden=false;postEl.querySelector('[data-comment]')?.focus();}}
+      if(action==='like'){if(liveApi()){try{const r=await window.SkyLineAPI.likePost(p.id);p.liked=r.liked;p.likes=r.likes;render();}catch(err){alert(err.message);}}else{s.liked=!s.liked;s.likes=Math.max(0,s.likes+(s.liked?1:-1));interactions[p.id]=s;saveInteractions();render();}}
+      if(action==='comment'){const panel=postEl.querySelector('.post-comment-panel');if(panel){panel.hidden=false;postEl.querySelector('[data-comment]')?.focus();if(liveApi()){try{const r=await window.SkyLineAPI.comments(p.id);const state=getState(p);state.comments=(r.comments||[]).map(c=>({name:c.name,text:c.text}));state.commentCount=state.comments.length;interactions[p.id]=state;render();}catch(err){console.warn('Could not load comments:',err.message);}}}}
       if(action==='share'){
         const url=`${location.origin}${location.pathname}#post-${encodeURIComponent(p.id)}`;
         try{if(navigator.share)await navigator.share({title:`${p.name} on SkyLine`,text:p.text,url});else{await navigator.clipboard.writeText(url);actionBtn.classList.add('shared-now');setTimeout(()=>actionBtn.classList.remove('shared-now'),900);}}catch(err){if(err?.name!=='AbortError')alert('Post is ready to share.');}
@@ -155,16 +159,16 @@
     if(pay){payName.textContent=pay.dataset.name;payAmount.value=pay.dataset.price.replace(/[^0-9.]/g,'');payModal?.classList.add('show');}
   });
 
-  root.addEventListener('submit',e=>{
+  root.addEventListener('submit',async e=>{
     const form=e.target.closest('.inline-comment-form');if(!form)return;e.preventDefault();
     const postEl=form.closest('.sky-post');const p=[...Object.values(data).flat()].find(x=>String(x.id)===String(postEl?.dataset.postId));if(!p)return;
     const input=form.querySelector('[data-comment]');const text=input.value.trim();if(!text)return;
-    currentUser().then(u=>{const s=getState(p);s.comments=[...(s.comments||[]),{name:u?.name||'SkyLine User',text}];s.commentCount=(s.commentCount||0)+1;interactions[p.id]=s;saveInteractions();render();});
+    if(liveApi()){try{await window.SkyLineAPI.addComment(p.id,text);const r=await window.SkyLineAPI.comments(p.id);const s=getState(p);s.comments=(r.comments||[]).map(c=>({name:c.name,text:c.text}));s.commentCount=s.comments.length;interactions[p.id]=s;render();}catch(err){alert(err.message);}}else currentUser().then(u=>{const s=getState(p);s.comments=[...(s.comments||[]),{name:u?.name||'SkyLine User',text}];s.commentCount=(s.commentCount||0)+1;interactions[p.id]=s;saveInteractions();render();});
   });
 
   closePay?.addEventListener('click',()=>payModal?.classList.remove('show'));
   payModal?.addEventListener('click',e=>{if(e.target===payModal)payModal.classList.remove('show')});
   payForm?.addEventListener('submit',e=>{e.preventDefault();alert('Payment is reserved for the secure SkyLine backend. No money was moved.');payModal?.classList.remove('show');});
   document.addEventListener('skyline-search',e=>{query=String(e.detail?.query||'').trim().toLowerCase();render();});
-  render();
+  if(liveApi()){ Object.keys(data).forEach(k=>data[k]=[]); loadLive('trends'); } else render();
 })();
